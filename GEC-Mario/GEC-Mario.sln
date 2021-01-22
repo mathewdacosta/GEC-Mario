@@ -5,14 +5,6 @@ VisualStudioVersion = 16.0.30907.101
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GEC-Mario", "GEC-Mario.vcxproj", "{FD0AE219-D286-4661-B927-05F5DCEEE60F}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{177748A8-CC52-4570-9726-8F5D9FB39975}"
-	ProjectSection(SolutionItems) = preProject
-		SDL2\lib\x64\SDL2.dll = SDL2\lib\x64\SDL2.dll
-		SDL2\SDL\SDL2.lib = SDL2\SDL\SDL2.lib
-		SDL2\SDL\SDL2_image.lib = SDL2\SDL\SDL2_image.lib
-		SDL2\SDL\SDL2_mixer.lib = SDL2\SDL\SDL2_mixer.lib
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
