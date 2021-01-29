@@ -12,6 +12,8 @@
 SDL_Window* g_window = nullptr;
 SDL_Renderer* g_renderer = nullptr;
 SDL_Texture* g_texture = nullptr;
+SDL_RendererFlip g_flip = SDL_FLIP_NONE;
+int g_angle = 0;
 
 
 // Prototypes
@@ -121,6 +123,24 @@ bool Update()
 		case SDLK_q:
 			return true;
 			break;
+		case SDLK_1:
+			g_flip = SDL_FLIP_NONE;
+			break;
+		case SDLK_2:
+			g_flip = SDL_FLIP_HORIZONTAL;
+			break;
+		case SDLK_3:
+			g_flip = SDL_FLIP_VERTICAL;
+			break;
+		case SDLK_4:
+			g_flip = static_cast<SDL_RendererFlip>(SDL_FLIP_HORIZONTAL | SDL_FLIP_VERTICAL);
+			break;
+		case SDLK_LEFTBRACKET:
+			g_angle -= 1;
+			break;
+		case SDLK_RIGHTBRACKET:
+			g_angle += 1;
+			break;
 		}
 	}
 
@@ -135,7 +155,7 @@ void Render()
 	// Position of texture
 	SDL_Rect renderLocation = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
 	// Draw texture at location
-	SDL_RenderCopyEx(g_renderer, g_texture, NULL, &renderLocation, 0, NULL, SDL_FLIP_NONE);
+	SDL_RenderCopyEx(g_renderer, g_texture, NULL, &renderLocation, g_angle, NULL, g_flip);
 
 	// Update screen
 	SDL_RenderPresent(g_renderer);
