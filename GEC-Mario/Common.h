@@ -27,3 +27,9 @@ enum SCREENS
 	SCREEN_GAME_OVER,
 	SCREEN_HIGH_SCORES
 };
+
+enum class FACING
+{
+	LEFT,
+	RIGHT
+};
