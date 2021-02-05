@@ -2,10 +2,11 @@
 #include "Texture2D.h"
 
 
-Character::Character(SDL_Renderer* renderer, std::string image_path, Vector2D start_position)
+Character::Character(SDL_Renderer* renderer, std::string image_path, Vector2D start_position, float movement_speed)
 {
     m_renderer = renderer;
     m_position = start_position;
+    m_movement_speed = movement_speed;
     
     m_facing_direction = FACING::RIGHT;
     m_moving_left = false;
@@ -28,13 +29,13 @@ Character::~Character()
 void Character::MoveLeft(float deltaTime)
 {
     m_facing_direction = FACING::LEFT;
-    m_position.x -= 1;
+    m_position.x -= deltaTime * m_movement_speed;
 }
 
 void Character::MoveRight(float deltaTime)
 {
     m_facing_direction = FACING::RIGHT;
-    m_position.x += 1;
+    m_position.x += deltaTime * m_movement_speed;
 }
 
 void Character::Render()

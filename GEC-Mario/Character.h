@@ -18,12 +18,13 @@ protected:
     FACING m_facing_direction;
     bool m_moving_left;
     bool m_moving_right;
+    float m_movement_speed;
 
     virtual void MoveLeft(float deltaTime);
     virtual void MoveRight(float deltaTime);
 
 public:
-    Character(SDL_Renderer* renderer, std::string image_path, Vector2D start_position);
+    Character(SDL_Renderer* renderer, std::string image_path, Vector2D start_position, float movement_speed);
     ~Character();
 
     virtual void Render();
