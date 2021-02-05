@@ -1,10 +1,12 @@
 ﻿#pragma once
 
-#include <iostream>
 #include <SDL.h>
 #include <string>
 
 #include "Common.h"
+
+#ifndef _CHARACTER_H
+#define _CHARACTER_H
 
 class Texture2D;
 
@@ -19,9 +21,14 @@ protected:
     bool m_moving_left;
     bool m_moving_right;
     float m_movement_speed;
+    bool m_jumping;
+    bool m_can_jump;
+    float m_jump_force;
 
+    virtual void Jump();
     virtual void MoveLeft(float deltaTime);
     virtual void MoveRight(float deltaTime);
+    void AddGravity(float deltaTime);
 
 public:
     Character(SDL_Renderer* renderer, std::string image_path, Vector2D start_position, float movement_speed);
@@ -33,3 +40,5 @@ public:
     void SetPosition(Vector2D new_position);
     Vector2D GetPosition();
 };
+
+#endif

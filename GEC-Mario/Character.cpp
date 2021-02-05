@@ -1,6 +1,8 @@
 ﻿#include "Character.h"
-#include "Texture2D.h"
+#include <iostream>
 
+#include "constants.h"
+#include "Texture2D.h"
 
 Character::Character(SDL_Renderer* renderer, std::string image_path, Vector2D start_position, float movement_speed)
 {
@@ -11,6 +13,8 @@ Character::Character(SDL_Renderer* renderer, std::string image_path, Vector2D st
     m_facing_direction = FACING::RIGHT;
     m_moving_left = false;
     m_moving_right = false;
+    m_jumping = false;
+    m_can_jump = true;
     
     m_texture = new Texture2D(m_renderer);
     if (!m_texture->LoadFromFile(image_path))
@@ -25,6 +29,12 @@ Character::~Character()
     delete m_texture;
 }
 
+void Character::Jump()
+{
+    m_jump_force = INITIAL_JUMP_FORCE;
+    m_jumping = true;
+    m_can_jump = false;
+}
 
 void Character::MoveLeft(float deltaTime)
 {
@@ -36,6 +46,20 @@ void Character::MoveRight(float deltaTime)
 {
     m_facing_direction = FACING::RIGHT;
     m_position.x += deltaTime * m_movement_speed;
+}
+
+
+void Character::AddGravity(float deltaTime)
+{
+    if (m_position.y + 64 <= SCREEN_HEIGHT)
+    {
+        m_position.y += deltaTime * GRAVITY;
+    }
+    else
+    {
+        m_jumping = false;
+        m_can_jump = true;
+    }
 }
 
 void Character::Render()
@@ -51,6 +75,20 @@ void Character::Render()
 
 void Character::Update(float deltaTime, SDL_Event e)
 {
+    if (m_jumping)
+    {
+        // Adjust position for jump
+        m_position.y -= m_jump_force * deltaTime;
+        // Decrease jump force
+        m_jump_force -= JUMP_FORCE_DECREMENT * deltaTime;
+        if (m_jump_force <= 0.0f)
+            m_jumping = false;
+    }
+    else
+    {
+        AddGravity(deltaTime);
+    }
+    
     if (m_moving_left)
     {
         MoveLeft(deltaTime);
@@ -70,6 +108,10 @@ void Character::Update(float deltaTime, SDL_Event e)
             break;
         case SDLK_RIGHT:
             m_moving_right = true;
+            break;
+        case SDLK_UP:
+            if (m_can_jump)
+                Jump();
             break;
         }
         break;
