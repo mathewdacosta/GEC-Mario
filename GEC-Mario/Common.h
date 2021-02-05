@@ -17,3 +17,13 @@ struct Vector2D
 		y = initial_y;
 	}
 };
+
+enum SCREENS
+{
+	SCREEN_INTRO,
+	SCREEN_MENU,
+	SCREEN_LEVEL_1,
+	SCREEN_LEVEL_2,
+	SCREEN_GAME_OVER,
+	SCREEN_HIGH_SCORES
+};
