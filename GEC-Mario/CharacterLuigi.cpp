@@ -1,7 +1,7 @@
 #include "CharacterLuigi.h"
 
 CharacterLuigi::CharacterLuigi(SDL_Renderer* renderer, Vector2D start_position)
-    : Character(renderer, "Images/Luigi.png", start_position, 60.0f)
+    : Character(renderer, "Images/Luigi.png", start_position, 60.0f, 16.0f)
 {
 }
 

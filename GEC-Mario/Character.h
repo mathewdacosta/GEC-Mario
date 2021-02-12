@@ -25,13 +25,15 @@ protected:
     bool m_can_jump;
     float m_jump_force;
 
+    float m_collision_radius;
+
     virtual void Jump();
     virtual void MoveLeft(float deltaTime);
     virtual void MoveRight(float deltaTime);
     void AddGravity(float deltaTime);
 
 public:
-    Character(SDL_Renderer* renderer, std::string image_path, Vector2D start_position, float movement_speed);
+    Character(SDL_Renderer* renderer, std::string image_path, Vector2D start_position, float movement_speed, float collision_radius);
     ~Character();
 
     virtual void Render();
@@ -42,6 +44,9 @@ public:
 
     void SetPosition(Vector2D new_position);
     Vector2D GetPosition();
+
+    float GetCollisionRadius();
+    Rect2D GetCollisionBox();
 };
 
 #endif

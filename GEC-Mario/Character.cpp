@@ -4,11 +4,12 @@
 #include "constants.h"
 #include "Texture2D.h"
 
-Character::Character(SDL_Renderer* renderer, std::string image_path, Vector2D start_position, float movement_speed)
+Character::Character(SDL_Renderer* renderer, std::string image_path, Vector2D start_position, float movement_speed, float collision_radius)
 {
     m_renderer = renderer;
     m_position = start_position;
     m_movement_speed = movement_speed;
+    m_collision_radius = collision_radius;
     
     m_facing_direction = FACING::RIGHT;
     m_moving_left = false;
@@ -113,4 +114,14 @@ void Character::SetPosition(Vector2D new_position)
 Vector2D Character::GetPosition()
 {
     return m_position;
+}
+
+float Character::GetCollisionRadius()
+{
+    return m_collision_radius;
+}
+
+Rect2D Character::GetCollisionBox()
+{
+    return Rect2D(m_position.x, m_position.y, m_texture->GetWidth(), m_texture->GetHeight());
 }
