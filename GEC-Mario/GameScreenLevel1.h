@@ -1,7 +1,7 @@
 ﻿#pragma once
 
 #include "GameScreen.h"
-#include "Character.h"
+#include "CharacterMario.h"
 
 #ifndef _GAMESCREENLEVEL1_H
 #define _GAMESCREENLEVEL1_H
@@ -12,7 +12,7 @@ class GameScreenLevel1 : public GameScreen
 {
 private:
     Texture2D* m_background_texture;
-    Character* m_character;
+    CharacterMario* m_character_mario;
 
     bool SetUpLevel();
 

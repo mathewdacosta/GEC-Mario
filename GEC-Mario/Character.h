@@ -37,6 +37,9 @@ public:
     virtual void Render();
     virtual void Update(float deltaTime, SDL_Event e);
 
+    void UpdateMovement(float deltaTime);
+    virtual void HandleInput(float deltaTime, SDL_Event e) = 0;
+
     void SetPosition(Vector2D new_position);
     Vector2D GetPosition();
 };

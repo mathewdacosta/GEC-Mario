@@ -9,14 +9,14 @@ bool GameScreenLevel1::SetUpLevel()
 {
     // Load background texture
     m_background_texture = new Texture2D(m_renderer);
-    if (!m_background_texture->LoadFromFile("Images/test.bmp"))
+    if (!m_background_texture->LoadFromFile("Images/BackgroundMB.png"))
     {
         std::cout << "Failed to load background texture!" << std::endl;
         return false;
     }
 
     // Create character
-    m_character = new Character(m_renderer, "Images/Mario.png", Vector2D(64, 300), 50.0f);
+    m_character_mario = new CharacterMario(m_renderer, Vector2D(64, 300));
     
     return true;
 }
@@ -29,7 +29,7 @@ GameScreenLevel1::GameScreenLevel1(SDL_Renderer* renderer) : GameScreen(renderer
 GameScreenLevel1::~GameScreenLevel1()
 {
     delete m_background_texture;
-    delete m_character;
+    delete m_character_mario;
 }
 
 void GameScreenLevel1::Render()
@@ -38,10 +38,10 @@ void GameScreenLevel1::Render()
     m_background_texture->Render(Vector2D(), SDL_FLIP_NONE);
 
     // Draw character
-    m_character->Render();
+    m_character_mario->Render();
 }
 
 void GameScreenLevel1::Update(float deltaTime, SDL_Event e)
 {
-    m_character->Update(deltaTime, e);
+    m_character_mario->Update(deltaTime, e);
 }

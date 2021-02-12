@@ -24,6 +24,21 @@
     <ClCompile Include="GameScreen.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Character.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GameScreenIntro.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GameScreenLevel1.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GameScreenManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CharacterMario.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="constants.h">
@@ -38,11 +53,40 @@
     <ClInclude Include="GameScreen.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Character.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameScreenIntro.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameScreenLevel1.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameScreenManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CharacterMario.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Library Include="SDL2\SDL\SDL2.lib" />
     <Library Include="SDL2\SDL\SDL2_image.lib" />
     <Library Include="SDL2\SDL\SDL2_mixer.lib" />
     <Library Include="SDL2\SDL\SDL2main.lib" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Images\BackgroundMB.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Images\Mario.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Images\test.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Images\test-2.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>
