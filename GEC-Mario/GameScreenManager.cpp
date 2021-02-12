@@ -47,6 +47,5 @@ void GameScreenManager::ChangeScreen(SCREENS new_screen)
     case SCREEN_LEVEL_1:
         m_current_screen = new GameScreenLevel1(m_renderer);
         break;
-        ;
     }
 }
