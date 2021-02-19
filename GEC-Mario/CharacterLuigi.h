@@ -7,7 +7,7 @@
 class CharacterLuigi : public Character
 {
 public:
-	CharacterLuigi(SDL_Renderer* renderer, Vector2D start_position);
+	CharacterLuigi(SDL_Renderer* renderer, Vector2D start_position, LevelMap* map);
 
 	void HandleInput(float deltaTime, SDL_Event e) override;
 };

@@ -4,18 +4,20 @@
 #include "constants.h"
 #include "Texture2D.h"
 
-Character::Character(SDL_Renderer* renderer, std::string image_path, Vector2D start_position, float movement_speed, float collision_radius)
+Character::Character(SDL_Renderer* renderer, std::string image_path, Vector2D start_position, float movement_speed, float collision_radius, LevelMap* map)
 {
     m_renderer = renderer;
     m_position = start_position;
     m_movement_speed = movement_speed;
     m_collision_radius = collision_radius;
+    m_current_level_map = map;
     
     m_facing_direction = FACING::RIGHT;
     m_moving_left = false;
     m_moving_right = false;
     m_jumping = false;
     m_can_jump = true;
+    m_jump_force = 0.0f;
     
     m_texture = new Texture2D(m_renderer);
     if (!m_texture->LoadFromFile(image_path))
