@@ -54,15 +54,7 @@ void Character::MoveRight(float deltaTime)
 
 void Character::AddGravity(float deltaTime)
 {
-    if (m_position.y + 64 <= SCREEN_HEIGHT)
-    {
-        m_position.y += deltaTime * GRAVITY;
-    }
-    else
-    {
-        m_jumping = false;
-        m_can_jump = true;
-    }
+    m_position.y += deltaTime * GRAVITY;
 }
 
 void Character::Render()
@@ -84,6 +76,9 @@ void Character::Update(float deltaTime, SDL_Event e)
 
 void Character::UpdateMovement(float deltaTime)
 {
+    int posXCenter = (int) (m_position.x + (m_texture->GetWidth() * 0.5)) / TILE_WIDTH;
+    int posYFoot = (int) (m_position.y + (m_texture->GetHeight())) / TILE_HEIGHT;
+
     if (m_jumping)
     {
         // Adjust position for jump
@@ -95,7 +90,15 @@ void Character::UpdateMovement(float deltaTime)
     }
     else
     {
-        AddGravity(deltaTime);
+        if (m_current_level_map->GetTileAt(posYFoot, posXCenter) == 0)
+        {
+            AddGravity(deltaTime);
+        }
+        else
+        {
+            m_can_jump = true;
+            m_jumping = false;
+        }
     }
 
     if (m_moving_left)
