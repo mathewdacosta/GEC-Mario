@@ -86,8 +86,6 @@ bool InitSDL()
 		return false;
 	}
 
-	// Set up screen manager
-
 	return true;
 }
 

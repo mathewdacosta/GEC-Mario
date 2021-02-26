@@ -50,6 +50,9 @@ public:
 
     float GetCollisionRadius();
     Rect2D GetCollisionBox();
+
+    bool IsJumping() { return m_jumping; }
+    void CancelJump() { m_jumping = false; }
 };
 
 #endif

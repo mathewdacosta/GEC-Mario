@@ -14,3 +14,6 @@ const int TILE_HEIGHT = 32;
 const int TILE_WIDTH = 32;
 const int MAP_HEIGHT = 13;
 const int MAP_WIDTH = 16;
+
+// Screen shake effect parameters
+const float SCREEN_SHAKE_DURATION = 0.3f;

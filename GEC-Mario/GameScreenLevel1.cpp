@@ -6,11 +6,19 @@
 
 #include "Collisions.h"
 #include "Texture2D.h"
+#include "PowBlock.h"
 
 bool GameScreenLevel1::SetUpLevel()
 {
+    // Initialise screen shake variables
+    m_screen_shaking = false;
+    m_shake_time = SCREEN_SHAKE_DURATION;
+    m_wobble = 0.0f;
+    m_background_yPos = 0.0f;
+    
     // Initialise level map to nullptr
     m_level_map = nullptr;
+    
     // Load background texture
     m_background_texture = new Texture2D(m_renderer);
     if (!m_background_texture->LoadFromFile("Images/BackgroundMB.png"))
@@ -22,9 +30,10 @@ bool GameScreenLevel1::SetUpLevel()
     // Set level map
     SetLevelMap();
 
-    // Create character
+    // Create characters and POW block
     m_character_mario = new CharacterMario(m_renderer, Vector2D(64, 300), m_level_map);
     m_character_luigi = new CharacterLuigi(m_renderer, Vector2D(256, 280), m_level_map);
+    m_pow_block = new PowBlock(m_renderer, m_level_map);
     
     return true;
 }
@@ -69,30 +78,58 @@ GameScreenLevel1::~GameScreenLevel1()
     delete m_background_texture;
     delete m_character_mario;
     delete m_character_luigi;
+    delete m_pow_block;
 }
 
 void GameScreenLevel1::Render()
 {
     // Draw background texture
-    m_background_texture->Render(Vector2D(), SDL_FLIP_NONE);
+    m_background_texture->Render(Vector2D(0, m_background_yPos), SDL_FLIP_NONE);
 
-    // Draw characters
+    // Draw characters and POW block
     m_character_mario->Render();
     m_character_luigi->Render();
+    m_pow_block->Render();
 }
 
 void GameScreenLevel1::Update(float deltaTime, SDL_Event e)
 {
     m_character_mario->Update(deltaTime, e);
     m_character_luigi->Update(deltaTime, e);
+    UpdatePOWBlock();
 
-    if (Collisions::Instance()->Circle(m_character_mario, m_character_luigi))
+    if (m_screen_shaking)
     {
-	    std::cout << "CIRCLE HIT" << std::endl;
-    }
+        m_shake_time -= deltaTime;
+        m_wobble++;
+        m_background_yPos = sin(m_wobble);
+        m_background_yPos *= 3.0f;
 
-    if (Collisions::Instance()->Box(m_character_mario->GetCollisionBox(), m_character_luigi->GetCollisionBox()))
-    {
-        std::cout << "BOX HIT" << std::endl;
+        if (m_shake_time <= 0.0f)
+        {
+            m_screen_shaking = false;
+            m_shake_time = 0.0f;
+            m_background_yPos = 0.0f;
+        }
     }
+}
+
+
+void GameScreenLevel1::UpdatePOWBlock()
+{
+    bool isColliding = Collisions::Instance()->Box(m_character_mario->GetCollisionBox(), m_pow_block->GetCollisionBox());
+
+    if (isColliding && m_pow_block->IsAvailable() && m_character_mario->IsJumping())
+    {
+        DoScreenShake();
+        m_pow_block->TakeHit();
+        m_character_mario->CancelJump();
+    }
+}
+
+void GameScreenLevel1::DoScreenShake()
+{
+    m_screen_shaking = true;
+    m_shake_time = SCREEN_SHAKE_DURATION;
+    m_wobble = 0.0f;
 }
