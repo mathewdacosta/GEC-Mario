@@ -90,6 +90,8 @@ void GameScreenLevel1::Render()
     m_character_mario->Render();
     m_character_luigi->Render();
     m_pow_block->Render();
+
+    // RenderDebugGrid();
 }
 
 void GameScreenLevel1::Update(float deltaTime, SDL_Event e)
@@ -132,4 +134,34 @@ void GameScreenLevel1::DoScreenShake()
     m_screen_shaking = true;
     m_shake_time = SCREEN_SHAKE_DURATION;
     m_wobble = 0.0f;
+}
+
+void GameScreenLevel1::RenderDebugGrid()
+{
+    for (int i = 0; i < MAP_WIDTH; i++)
+    {
+        for (int j = 0; j < MAP_HEIGHT; j++)
+        {
+            switch (m_level_map->GetTileAt(j, i))
+            {
+            case 0:
+                SDL_SetRenderDrawColor(m_renderer, 0, 0, 255, 255);
+                break;
+            case 1:
+                SDL_SetRenderDrawColor(m_renderer, 0, 255, 0, 255);
+                break;
+            default:
+                SDL_SetRenderDrawColor(m_renderer, 255, 0, 0, 255);
+                break;
+            }
+            SDL_Rect current_rect = {
+                i * TILE_WIDTH,
+                j * TILE_HEIGHT,
+                TILE_WIDTH,
+                TILE_HEIGHT
+            };
+            
+            SDL_RenderDrawRect(m_renderer, &current_rect);
+        }
+    }
 }

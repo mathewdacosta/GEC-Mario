@@ -38,6 +38,7 @@ public:
 
     void UpdatePOWBlock();
     void DoScreenShake();
+    void RenderDebugGrid();
 };
 
 #endif
