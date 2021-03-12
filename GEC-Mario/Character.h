@@ -20,13 +20,14 @@ protected:
 
     LevelMap* m_current_level_map;
     
-    FACING m_facing_direction;
+    Facing m_facing_direction;
     bool m_moving_left;
     bool m_moving_right;
     float m_movement_speed;
     bool m_jumping;
     bool m_can_jump;
     float m_jump_force;
+    bool m_alive;
 
     float m_collision_radius;
 
@@ -43,7 +44,7 @@ public:
     virtual void Update(float deltaTime, SDL_Event e);
 
     void UpdateMovement(float deltaTime);
-    virtual void HandleInput(float deltaTime, SDL_Event e) = 0;
+    virtual void HandleInput(float deltaTime, SDL_Event e);
 
     void SetPosition(Vector2D new_position);
     Vector2D GetPosition();
@@ -53,6 +54,9 @@ public:
 
     bool IsJumping() { return m_jumping; }
     void CancelJump() { m_jumping = false; }
+
+    bool IsAlive() { return m_alive; }
+    void SetAlive(bool alive) { m_alive = alive; }
 };
 
 #endif

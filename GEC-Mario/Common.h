@@ -44,7 +44,7 @@ enum SCREENS
 	SCREEN_HIGH_SCORES
 };
 
-enum class FACING
+enum class Facing
 {
 	LEFT,
 	RIGHT

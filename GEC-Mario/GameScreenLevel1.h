@@ -1,5 +1,8 @@
 ﻿#pragma once
 
+#include <vector>
+
+#include "CharacterKoopa.h"
 #include "GameScreen.h"
 #include "CharacterMario.h"
 #include "CharacterLuigi.h"
@@ -20,6 +23,7 @@ private:
     CharacterMario* m_character_mario;
     CharacterLuigi* m_character_luigi;
     PowBlock* m_pow_block;
+    std::vector<CharacterKoopa*> m_enemies;
 
     bool m_screen_shaking;
     float m_shake_time;
@@ -39,6 +43,8 @@ public:
     void UpdatePOWBlock();
     void DoScreenShake();
     void RenderDebugGrid();
+    void UpdateEnemies(float deltaTime, SDL_Event e);
+    void CreateKoopa(Vector2D position, Facing direction, float speed);
 };
 
 #endif

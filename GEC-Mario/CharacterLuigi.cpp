@@ -1,7 +1,7 @@
 #include "CharacterLuigi.h"
 
 CharacterLuigi::CharacterLuigi(SDL_Renderer* renderer, Vector2D start_position, LevelMap* map)
-    : Character(renderer, "Images/Luigi.png", start_position, 60.0f, 16.0f, map)
+    : Character(renderer, "Images/Luigi.png", start_position, LUIGI_MOVE_SPEED, 16.0f, map)
 {
 }
 

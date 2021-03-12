@@ -12,12 +12,13 @@ Character::Character(SDL_Renderer* renderer, std::string image_path, Vector2D st
     m_collision_radius = collision_radius;
     m_current_level_map = map;
     
-    m_facing_direction = FACING::RIGHT;
+    m_facing_direction = Facing::RIGHT;
     m_moving_left = false;
     m_moving_right = false;
     m_jumping = false;
     m_can_jump = true;
     m_jump_force = 0.0f;
+    m_alive = true;
     
     m_texture = new Texture2D(m_renderer);
     if (!m_texture->LoadFromFile(image_path))
@@ -41,13 +42,13 @@ void Character::Jump()
 
 void Character::MoveLeft(float deltaTime)
 {
-    m_facing_direction = FACING::LEFT;
+    m_facing_direction = Facing::LEFT;
     m_position.x -= deltaTime * m_movement_speed;
 }
 
 void Character::MoveRight(float deltaTime)
 {
-    m_facing_direction = FACING::RIGHT;
+    m_facing_direction = Facing::RIGHT;
     m_position.x += deltaTime * m_movement_speed;
 }
 
@@ -60,7 +61,7 @@ void Character::AddGravity(float deltaTime)
 void Character::Render()
 {
     SDL_RendererFlip flip;
-    if (m_facing_direction == FACING::LEFT)
+    if (m_facing_direction == Facing::LEFT)
         flip = SDL_FLIP_HORIZONTAL;
     else
         flip = SDL_FLIP_NONE;
@@ -110,6 +111,8 @@ void Character::UpdateMovement(float deltaTime)
         MoveRight(deltaTime);
     }
 }
+
+void Character::HandleInput(float deltaTime, SDL_Event e) {}
 
 void Character::SetPosition(Vector2D new_position)
 {

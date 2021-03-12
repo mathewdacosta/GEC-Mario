@@ -1,7 +1,7 @@
 #include "CharacterMario.h"
 
 CharacterMario::CharacterMario(SDL_Renderer* renderer, Vector2D start_position, LevelMap* map)
-	: Character(renderer, "Images/Mario.png", start_position, 50.0f, 16.0f, map)
+	: Character(renderer, "Images/Mario.png", start_position, MARIO_MOVE_SPEED, 16.0f, map)
 {
 }
 
