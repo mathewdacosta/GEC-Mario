@@ -25,6 +25,9 @@ private:
     PowBlock* m_pow_block;
     std::vector<CharacterKoopa*> m_enemies;
 
+    int m_enemy_spawn_side;
+    float m_enemy_spawn_timer;
+
     bool m_screen_shaking;
     float m_shake_time;
     float m_wobble;
@@ -44,6 +47,7 @@ public:
     void DoScreenShake();
     void RenderDebugGrid();
     void UpdateEnemies(float deltaTime, SDL_Event e);
+    void UpdateSpawners(float deltaTime);
     void CreateKoopa(Vector2D position, Facing direction, float speed);
 };
 

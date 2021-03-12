@@ -1,7 +1,6 @@
 ﻿#include "GameScreenLevel1.h"
 
 #include <iostream>
-#include <memory>
 
 
 #include "Collisions.h"
@@ -37,6 +36,10 @@ bool GameScreenLevel1::SetUpLevel()
 
     CreateKoopa(Vector2D(150, 32), Facing::RIGHT, KOOPA_SPEED);
     CreateKoopa(Vector2D(325, 32), Facing::LEFT, KOOPA_SPEED);
+
+	// Set up spawner variables
+	m_enemy_spawn_side = 0;
+	m_enemy_spawn_timer = LEVEL_1_SPAWNER_DELAY;
     
     return true;
 }
@@ -100,7 +103,7 @@ void GameScreenLevel1::Render()
         m_enemies[i]->Render();
 	}
 
-    // RenderDebugGrid();
+    RenderDebugGrid();
 }
 
 void GameScreenLevel1::Update(float deltaTime, SDL_Event e)
@@ -109,6 +112,7 @@ void GameScreenLevel1::Update(float deltaTime, SDL_Event e)
     m_character_luigi->Update(deltaTime, e);
     UpdatePOWBlock();
     UpdateEnemies(deltaTime, e);
+	UpdateSpawners(deltaTime);
 
     if (m_screen_shaking)
     {
@@ -239,6 +243,31 @@ void GameScreenLevel1::UpdateEnemies(float deltaTime, SDL_Event e)
 		{
             m_enemies.erase(m_enemies.begin() + toDelete);
 		}
+	}
+}
+
+void GameScreenLevel1::UpdateSpawners(float deltaTime)
+{
+	m_enemy_spawn_timer -= deltaTime;
+	if (m_enemy_spawn_timer <= 0.0f)
+	{
+		Vector2D position;
+		Facing direction;
+		if (m_enemy_spawn_side == 0)
+		{
+			position = LEVEL_1_SPAWNER_POSITION_0;
+			direction = Facing::RIGHT;
+		}
+		else
+		{
+			position = LEVEL_1_SPAWNER_POSITION_1;
+			direction = Facing::LEFT;
+		}
+
+		CreateKoopa(position, direction, KOOPA_SPEED);
+
+		m_enemy_spawn_side = (m_enemy_spawn_side + 1) % 2;
+		m_enemy_spawn_timer = LEVEL_1_SPAWNER_DELAY;
 	}
 }
 
