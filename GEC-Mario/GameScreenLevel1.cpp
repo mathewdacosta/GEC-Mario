@@ -2,7 +2,6 @@
 
 #include <iostream>
 
-
 #include "Collisions.h"
 #include "Texture2D.h"
 #include "PowBlock.h"
@@ -103,7 +102,7 @@ void GameScreenLevel1::Render()
         m_enemies[i]->Render();
 	}
 
-    RenderDebugGrid();
+    // RenderDebugGrid();
 }
 
 void GameScreenLevel1::Update(float deltaTime, SDL_Event e)
@@ -196,23 +195,41 @@ void GameScreenLevel1::UpdateEnemies(float deltaTime, SDL_Event e)
 		{
             CharacterKoopa* current = m_enemies[i];
 
-            float posX = current->GetPosition().x;
-            float posY = current->GetPosition().y;
-			float width = current->GetCollisionBox().width;
+			Rect2D collisionBox = current->GetCollisionBox();
+            float posX = collisionBox.x;
+            float posY = collisionBox.y;
+			float width = collisionBox.width;
 			
 			// Check whether enemy is on bottom row of tiles
 			if (posY > 300.0f)
 			{
 				// Check if enemy is off either left or right of screen
-				if (posX < (float)(width * 0.5f) || posX > SCREEN_WIDTH - (float)(width * 0.55f))
+				if (posX < (float) (width * 0.5f) || posX > SCREEN_WIDTH - (float) (width * 0.5f))
 				{
 					// Kill enemy if off screen
                     current->SetAlive(false);
 				}
+				
+				// Call enemy update method
+				current->Update(deltaTime, e);
 			}
-
-			// Call enemy update method
-            current->Update(deltaTime, e);
+			else
+			{
+				// Check if enemy is off either left or right of screen and wrap around
+				if (posX < (float) -(width * 0.5f))
+				{
+					current->SetPosition(Vector2D(SCREEN_WIDTH - (0.5 * width), posY));
+				}
+				else if (posX > SCREEN_WIDTH - (float) (width * 0.5f))
+				{
+					current->SetPosition(Vector2D(0.5 * width, posY));
+				}
+				else
+				{
+					// Call enemy update method
+					current->Update(deltaTime, e);
+				}
+			}
 
 			// Check enemy collisions if enemy is not behind pipe
 			if (!((posY > 300.0f || posY <= 64.0f) && (posX <  64.0f || posX > SCREEN_WIDTH - 96.0f)))
@@ -241,7 +258,9 @@ void GameScreenLevel1::UpdateEnemies(float deltaTime, SDL_Event e)
 		// Remove enemy if scheduled (will be last if multiple are dead)
 		if (toDelete >= 0)
 		{
+			CharacterKoopa* temp = m_enemies[toDelete];
             m_enemies.erase(m_enemies.begin() + toDelete);
+			delete temp;
 		}
 	}
 }

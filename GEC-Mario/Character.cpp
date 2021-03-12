@@ -77,8 +77,9 @@ void Character::Update(float deltaTime, SDL_Event e)
 
 void Character::UpdateMovement(float deltaTime)
 {
-    int posXCenter = (int) (m_position.x + (m_texture->GetWidth() * 0.5)) / TILE_WIDTH;
-    int posYFoot = (int) (m_position.y + (m_texture->GetHeight())) / TILE_HEIGHT;
+    Rect2D collisionBox = GetCollisionBox();
+    int posXCenter = (int) (collisionBox.x + (collisionBox.width * 0.5)) / TILE_WIDTH;
+    int posYFoot = (int) (collisionBox.y + (collisionBox.height)) / TILE_HEIGHT;
 
     if (m_jumping)
     {

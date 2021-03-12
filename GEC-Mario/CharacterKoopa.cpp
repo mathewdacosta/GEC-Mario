@@ -37,6 +37,15 @@ void CharacterKoopa::Render()
     {
         m_texture->Render(src_rect, dest_rect, SDL_FLIP_HORIZONTAL);
     }
+
+    //todo remove
+    Rect2D collisionBox = GetCollisionBox();
+    int posXCenter = (int) (collisionBox.x + (collisionBox.width * 0.5));
+    int posYFoot = (int) (collisionBox.y + (collisionBox.height));
+    SDL_SetRenderDrawColor(m_renderer, 255, 0, 255, 255);
+    if (posYFoot > 300)
+        SDL_SetRenderDrawColor(m_renderer, 255, 255, 0, 255);
+    SDL_RenderDrawLine(m_renderer, posXCenter, posYFoot, posXCenter, posYFoot + 10);
 }
 
 void CharacterKoopa::Update(float deltaTime, SDL_Event e)
@@ -101,4 +110,10 @@ void CharacterKoopa::ResetFlip()
     
     m_injured = false;
     Jump();
+}
+
+
+Rect2D CharacterKoopa::GetCollisionBox()
+{
+    return Rect2D(m_position.x, m_position.y, m_single_sprite_w, m_single_sprite_h);
 }
