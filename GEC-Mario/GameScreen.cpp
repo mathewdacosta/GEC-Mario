@@ -11,7 +11,10 @@ GameScreen::GameScreen(SDL_Renderer* renderer, AudioManager* audio_manager)
 
 GameScreen::~GameScreen()
 {
-    m_audio_manager->FreeAudio(m_bgm);
+    if (m_bgm != nullptr)
+    {
+        m_audio_manager->FreeAudio(m_bgm);
+    }
     m_renderer = nullptr;
 }
 
