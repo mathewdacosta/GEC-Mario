@@ -1,5 +1,8 @@
 ﻿#pragma once
+#include <SDL_mixer.h>
+
 #include "GameScreen.h"
+#include "AudioManager.h"
 #include "Texture2D.h"
 
 #ifndef _GAMESCREENINTRO_H
@@ -13,7 +16,7 @@ private:
     bool SetUpLevel();
 
 public:
-    GameScreenIntro(SDL_Renderer* renderer);
+    GameScreenIntro(SDL_Renderer* renderer, AudioManager* audio_manager);
     ~GameScreenIntro();
 
     void Render() override;

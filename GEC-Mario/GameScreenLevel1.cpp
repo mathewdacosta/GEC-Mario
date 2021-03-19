@@ -25,6 +25,11 @@ bool GameScreenLevel1::SetUpLevel()
         return false;
     }
 
+	if (!SetBGM("Audio/Music/Mario.mp3"))
+	{
+		return false;
+	}
+
     // Set level map
     SetLevelMap();
 
@@ -73,7 +78,7 @@ void GameScreenLevel1::SetLevelMap()
     m_level_map = new LevelMap(map);
 }
 
-GameScreenLevel1::GameScreenLevel1(SDL_Renderer* renderer) : GameScreen(renderer)
+GameScreenLevel1::GameScreenLevel1(SDL_Renderer* renderer, AudioManager* audio_manager) : GameScreen(renderer, audio_manager)
 {
     SetUpLevel();
 }

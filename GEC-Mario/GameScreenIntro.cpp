@@ -1,7 +1,6 @@
 ﻿#include "GameScreenIntro.h"
 
 #include <iostream>
-#include "Texture2D.h"
 
 bool GameScreenIntro::SetUpLevel()
 {
@@ -12,10 +11,16 @@ bool GameScreenIntro::SetUpLevel()
         std::cout << "Failed to load background texture!" << std::endl;
         return false;
     }
+
+    if (!SetBGM("Audio/Music/MarioUnderworld.mp3"))
+    {
+        return false;
+    }
+    
     return true;
 }
 
-GameScreenIntro::GameScreenIntro(SDL_Renderer* renderer) : GameScreen(renderer)
+GameScreenIntro::GameScreenIntro(SDL_Renderer* renderer, AudioManager* audio_manager) : GameScreen(renderer, audio_manager)
 {
     SetUpLevel();
 }

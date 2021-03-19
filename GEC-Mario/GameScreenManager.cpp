@@ -4,9 +4,10 @@
 #include "GameScreenIntro.h"
 #include "GameScreenLevel1.h"
 
-GameScreenManager::GameScreenManager(SDL_Renderer* renderer, SCREENS start_screen)
+GameScreenManager::GameScreenManager(SDL_Renderer* renderer, AudioManager* audio_manager, SCREENS start_screen)
 {
     m_renderer = renderer;
+    m_audio_manager = audio_manager;
     m_current_screen = nullptr;
 
     ChangeScreen(start_screen);
@@ -41,11 +42,11 @@ void GameScreenManager::ChangeScreen(SCREENS new_screen)
     switch (new_screen)
     {
     case SCREEN_INTRO:
-        m_current_screen = new GameScreenIntro(m_renderer);
+        m_current_screen = new GameScreenIntro(m_renderer, m_audio_manager);
         break;
     default:
     case SCREEN_LEVEL_1:
-        m_current_screen = new GameScreenLevel1(m_renderer);
+        m_current_screen = new GameScreenLevel1(m_renderer, m_audio_manager);
         break;
     }
 }

@@ -37,7 +37,7 @@ private:
     void SetLevelMap();
 
 public:
-    GameScreenLevel1(SDL_Renderer* renderer);
+    GameScreenLevel1(SDL_Renderer* renderer, AudioManager* audio_manager);
     ~GameScreenLevel1();
 
     void Render() override;

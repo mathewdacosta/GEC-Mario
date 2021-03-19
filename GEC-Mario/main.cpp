@@ -3,8 +3,9 @@
 
 #include <SDL.h>
 #include <SDL_image.h>
-#include <SDL_mixer.h>
 
+
+#include "AudioManager.h"
 #include "constants.h"
 #include "Common.h"
 #include "GameScreenManager.h"
@@ -13,8 +14,9 @@
 // Globals
 SDL_Window* g_window = nullptr;
 SDL_Renderer* g_renderer = nullptr;
-
+AudioManager* g_audio_manager = nullptr;
 GameScreenManager* g_screen_manager = nullptr;
+
 Uint32 g_old_time;
 
 // Prototypes
@@ -31,7 +33,7 @@ int main(int argc, char* args[])
 	if (InitSDL())
 	{
 		// Set up screen manager
-		g_screen_manager = new GameScreenManager(g_renderer, SCREEN_LEVEL_1);
+		g_screen_manager = new GameScreenManager(g_renderer, g_audio_manager, SCREEN_LEVEL_1);
 		// Set time
 		g_old_time = SDL_GetTicks();
 		
@@ -54,6 +56,14 @@ bool InitSDL()
 	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER | SDL_INIT_AUDIO) < 0)
 	{
 		std::cout << "SDL did not initialise. Error: " << SDL_GetError();
+		return false;
+	}
+
+	g_audio_manager = new AudioManager();
+
+	if (!(g_audio_manager->Setup()))
+	{
+		std::cout << "Audio setup failed." << std::endl;
 		return false;
 	}
 
@@ -100,6 +110,8 @@ void CloseSDL()
 	// Release window
 	SDL_DestroyWindow(g_window);
 	g_window = nullptr;
+	// Shut down audio
+	delete g_audio_manager;
 
 	IMG_Quit();
 	SDL_Quit();
