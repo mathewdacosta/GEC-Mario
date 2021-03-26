@@ -3,6 +3,8 @@
 #ifndef _LEVELMAP_H
 #define _LEVELMAP_H
 
+#include <string>
+
 #include "constants.h"
 
 class LevelMap
@@ -16,6 +18,8 @@ public:
 
     int GetTileAt(unsigned int h, unsigned int w);
     void ChangeTileAt(unsigned int row, unsigned int column, unsigned int new_value);
+
+    static LevelMap* LoadFromFile(std::string path);
 };
 
 #endif

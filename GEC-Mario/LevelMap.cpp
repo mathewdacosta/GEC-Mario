@@ -1,5 +1,8 @@
 ﻿#include "LevelMap.h"
 
+#include <fstream>
+#include <iostream>
+
 
 LevelMap::LevelMap(int map[MAP_HEIGHT][MAP_WIDTH])
 {
@@ -45,4 +48,36 @@ int LevelMap::GetTileAt(unsigned int h, unsigned int w)
 void LevelMap::ChangeTileAt(unsigned row, unsigned column, unsigned new_value)
 {
     m_map[row][column] = new_value;
+}
+
+LevelMap* LevelMap::LoadFromFile(std::string path)
+{
+    int loadedMap[MAP_HEIGHT][MAP_WIDTH] = {};
+
+    std::ifstream inFile(path.c_str());
+
+    if (!inFile || inFile.bad())
+    {
+        std::cout << "Could not load level map '" << path << "'!" << std::endl;
+        return nullptr;
+    }
+
+    for (int row = 0; row < MAP_HEIGHT; row++)
+    {
+        for (int col = 0; col < MAP_WIDTH; col++)
+        {
+            if (inFile.eof())
+            {
+                std::cout << "Invalid map data! Expected " << MAP_HEIGHT * MAP_WIDTH << " entries, got " << row * MAP_WIDTH + col << " entries." << std::endl;
+                inFile.close();
+                return nullptr;
+            }
+            
+            inFile >> loadedMap[row][col];
+        }
+    }
+
+    inFile.close();
+
+    return new LevelMap(loadedMap);
 }
