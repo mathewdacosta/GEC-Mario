@@ -1,9 +1,16 @@
 #pragma once
 
+#include "Common.h"
+
 // Screen dimensions
 #define SCREEN_WIDTH 512
 #define SCREEN_HEIGHT 416
-#include "Common.h"
+
+// Audio mixer settings
+const int MIXER_FREQUENCY = 44100;
+const int MIXER_OUTPUT_CHANNELS = 2;
+const int MIXER_CHUNK_SIZE = 2048;
+const int MIXER_CHANNELS = 16;
 
 // Character movement characteristics
 const float GRAVITY = 220.0f;

@@ -6,6 +6,7 @@
 #include <string>
 
 #include "Character.h"
+#include "SoundEffect.h"
 
 class CharacterKoopa : public Character
 {
@@ -16,10 +17,12 @@ private:
     bool m_injured;
     float m_injured_time;
 
+    SoundEffect* m_stomp_sound;
+
     void ResetFlip();
 
 public:
-    CharacterKoopa(SDL_Renderer* renderer, std::string imagePath, LevelMap* map, Vector2D start_position, Facing start_facing, float movement_speed);
+    CharacterKoopa(SDL_Renderer* renderer, std::string imagePath, SoundEffect* stomp_sound, LevelMap* map, Vector2D start_position, Facing start_facing, float movement_speed);
     ~CharacterKoopa();
 
     void Render() override;

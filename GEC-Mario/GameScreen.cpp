@@ -13,7 +13,7 @@ GameScreen::~GameScreen()
 {
     if (m_bgm != nullptr)
     {
-        m_audio_manager->FreeAudio(m_bgm);
+        m_audio_manager->FreeMusic(m_bgm);
     }
     m_renderer = nullptr;
 }
@@ -28,10 +28,10 @@ bool GameScreen::SetBGM(std::string path)
     
     if (m_bgm != nullptr)
     {
-        m_audio_manager->FreeAudio(m_bgm);
+        m_audio_manager->FreeMusic(m_bgm);
     }
     
-    m_bgm = m_audio_manager->LoadAudio(path);
+    m_bgm = m_audio_manager->LoadMusic(path);
     if (m_bgm == nullptr)
     {
         std::cout << "Failed to load background audio!" << std::endl;

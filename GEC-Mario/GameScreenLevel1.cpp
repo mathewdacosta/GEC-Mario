@@ -5,6 +5,7 @@
 #include "Collisions.h"
 #include "Texture2D.h"
 #include "PowBlock.h"
+#include "SoundEffect.h"
 
 bool GameScreenLevel1::SetUpLevel()
 {
@@ -31,15 +32,13 @@ bool GameScreenLevel1::SetUpLevel()
 	}
 
     // Set level map
-    SetLevelMap();
+	SetLevelMap();
+
+	// Load sound effects
+	SetUpSFX();
 
     // Create characters and POW block
-    m_character_mario = new CharacterMario(m_renderer, Vector2D(64, 300), m_level_map);
-    m_character_luigi = new CharacterLuigi(m_renderer, Vector2D(256, 280), m_level_map);
-    m_pow_block = new PowBlock(m_renderer, m_level_map);
-
-    CreateKoopa(Vector2D(150, 32), Facing::RIGHT, KOOPA_SPEED);
-    CreateKoopa(Vector2D(325, 32), Facing::LEFT, KOOPA_SPEED);
+	SetUpEntities();
 
 	// Set up spawner variables
 	m_enemy_spawn_side = 0;
@@ -47,7 +46,6 @@ bool GameScreenLevel1::SetUpLevel()
     
     return true;
 }
-
 
 void GameScreenLevel1::SetLevelMap()
 {
@@ -78,6 +76,25 @@ void GameScreenLevel1::SetLevelMap()
     m_level_map = new LevelMap(map);
 }
 
+void GameScreenLevel1::SetUpEntities()
+{
+	m_character_mario = new CharacterMario(m_renderer, Vector2D(64, 300), m_level_map);
+	m_character_luigi = new CharacterLuigi(m_renderer, Vector2D(256, 280), m_level_map);
+	m_pow_block = new PowBlock(m_renderer, m_level_map);
+
+	CreateKoopa(Vector2D(150, 32), Facing::RIGHT, KOOPA_SPEED);
+	CreateKoopa(Vector2D(325, 32), Facing::LEFT, KOOPA_SPEED);
+}
+
+void GameScreenLevel1::SetUpSFX()
+{
+	m_coin_sound = new SoundEffect(m_audio_manager, "Audio/SFX/smb_coin.wav", 0);
+	m_kick_sound = new SoundEffect(m_audio_manager, "Audio/SFX/smb_kick.wav", 0);
+	m_mario_jump_sound = new SoundEffect(m_audio_manager, "Audio/SFX/smb_jump-small.wav", 1);
+	m_luigi_jump_sound = new SoundEffect(m_audio_manager, "Audio/SFX/smb_jump-super.wav", 2);
+	m_stomp_sound = new SoundEffect(m_audio_manager, "Audio/SFX/smb_stomp.wav", 3);
+}
+
 GameScreenLevel1::GameScreenLevel1(SDL_Renderer* renderer, AudioManager* audio_manager) : GameScreen(renderer, audio_manager)
 {
     SetUpLevel();
@@ -89,7 +106,18 @@ GameScreenLevel1::~GameScreenLevel1()
     delete m_character_mario;
     delete m_character_luigi;
     delete m_pow_block;
+
+	for (int i = 0; i < m_enemies.size(); i++)
+	{
+		delete m_enemies[i];
+	}
     m_enemies.clear();
+
+	delete m_coin_sound;
+	delete m_kick_sound;
+	delete m_mario_jump_sound;
+	delete m_luigi_jump_sound;
+	delete m_stomp_sound;
 }
 
 void GameScreenLevel1::Render()
@@ -245,6 +273,7 @@ void GameScreenLevel1::UpdateEnemies(float deltaTime, SDL_Event e)
 		            {
 		            	// Kill enemy when collided
                         current->SetAlive(false);
+		            	m_kick_sound->Play();
 		            }
                     else
                     {
@@ -297,7 +326,7 @@ void GameScreenLevel1::UpdateSpawners(float deltaTime)
 
 void GameScreenLevel1::CreateKoopa(Vector2D position, Facing direction, float speed)
 {
-    CharacterKoopa* enemy = new CharacterKoopa(m_renderer, "Images/Koopa.png", m_level_map, position, direction, speed);
+    CharacterKoopa* enemy = new CharacterKoopa(m_renderer, "Images/Koopa.png", m_stomp_sound, m_level_map, position, direction, speed);
     m_enemies.push_back(enemy);
 }
 
