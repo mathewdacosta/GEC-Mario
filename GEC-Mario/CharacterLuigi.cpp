@@ -1,39 +1,21 @@
 #include "CharacterLuigi.h"
 
 CharacterLuigi::CharacterLuigi(SDL_Renderer* renderer, Vector2D start_position, LevelMap* map)
-    : Character(renderer, "Images/Luigi.png", start_position, LUIGI_MOVE_SPEED, 16.0f, map)
+    : Player(renderer, "Images/Luigi.png", start_position, LUIGI_MOVE_SPEED, INITIAL_JUMP_FORCE, 2, 16.0f, map)
 {
 }
 
-void CharacterLuigi::HandleInput(float deltaTime, SDL_Event e)
+const SDL_Keycode CharacterLuigi::GetJumpKey()
 {
-    switch (e.type)
-    {
-    case SDL_KEYDOWN:
-        switch (e.key.keysym.sym)
-        {
-        case SDLK_a:
-            m_moving_left = true;
-            break;
-        case SDLK_d:
-            m_moving_right = true;
-            break;
-        case SDLK_w:
-            if (m_can_jump)
-                Jump();
-            break;
-        }
-        break;
-    case SDL_KEYUP:
-        switch (e.key.keysym.sym)
-        {
-        case SDLK_a:
-            m_moving_left = false;
-            break;
-        case SDLK_d:
-            m_moving_right = false;
-            break;
-        }
-        break;
-    }
+    return SDLK_UP;
+}
+
+const SDL_Keycode CharacterLuigi::GetLeftKey()
+{
+    return SDLK_LEFT;
+}
+
+const SDL_Keycode CharacterLuigi::GetRightKey()
+{
+    return SDLK_RIGHT;
 }

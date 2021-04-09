@@ -1,39 +1,22 @@
 #include "CharacterMario.h"
 
 CharacterMario::CharacterMario(SDL_Renderer* renderer, Vector2D start_position, LevelMap* map)
-	: Character(renderer, "Images/Mario.png", start_position, MARIO_MOVE_SPEED, 16.0f, map)
+	: Player(renderer, "Images/Mario.png", start_position,
+		LUIGI_MOVE_SPEED, INITIAL_JUMP_FORCE, 2, 16.0f, map)
 {
 }
 
-void CharacterMario::HandleInput(float deltaTime, SDL_Event e)
+const SDL_Keycode CharacterMario::GetJumpKey()
 {
-    switch (e.type)
-    {
-    case SDL_KEYDOWN:
-        switch (e.key.keysym.sym)
-        {
-        case SDLK_LEFT:
-            m_moving_left = true;
-            break;
-        case SDLK_RIGHT:
-            m_moving_right = true;
-            break;
-        case SDLK_UP:
-            if (m_can_jump)
-                Jump();
-            break;
-        }
-        break;
-    case SDL_KEYUP:
-        switch (e.key.keysym.sym)
-        {
-        case SDLK_LEFT:
-            m_moving_left = false;
-            break;
-        case SDLK_RIGHT:
-            m_moving_right = false;
-            break;
-        }
-        break;
-    }
+	return SDLK_w;
+}
+
+const SDL_Keycode CharacterMario::GetLeftKey()
+{
+	return SDLK_a;
+}
+
+const SDL_Keycode CharacterMario::GetRightKey()
+{
+	return SDLK_d;
 }

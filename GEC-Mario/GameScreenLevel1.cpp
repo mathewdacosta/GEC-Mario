@@ -7,77 +7,6 @@
 #include "PowBlock.h"
 #include "SoundEffect.h"
 
-bool GameScreenLevel1::SetUpLevel()
-{
-    // Initialise screen shake variables
-    m_screen_shaking = false;
-    m_shake_time = SCREEN_SHAKE_DURATION;
-    m_wobble = 0.0f;
-    m_background_yPos = 0.0f;
-    
-    // Initialise level map to nullptr
-    m_level_map = nullptr;
-    
-    // Load background texture
-    m_background_texture = new Texture2D(m_renderer);
-    if (!m_background_texture->LoadFromFile("Images/BackgroundMB.png"))
-    {
-        std::cout << "Failed to load background texture!" << std::endl;
-        return false;
-    }
-
-	if (!SetBGM("Audio/Music/Mario.mp3"))
-	{
-		return false;
-	}
-
-    // Set level map
-	SetLevelMap();
-
-	// Load sound effects
-	SetUpSFX();
-
-    // Create characters and POW block
-	SetUpEntities();
-
-	// Set up spawner variables
-	m_enemy_spawn_side = 0;
-	m_enemy_spawn_timer = LEVEL_1_SPAWNER_DELAY;
-    
-    return true;
-}
-
-void GameScreenLevel1::SetLevelMap()
-{
-    // Delete old map if still exists
-    if (m_level_map != nullptr)
-    {
-        delete m_level_map;
-    }
-
-    // Set new map
-    m_level_map = LevelMap::LoadFromFile("Levels/01.txt");
-}
-
-void GameScreenLevel1::SetUpEntities()
-{
-	m_character_mario = new CharacterMario(m_renderer, Vector2D(64, 300), m_level_map);
-	m_character_luigi = new CharacterLuigi(m_renderer, Vector2D(256, 280), m_level_map);
-	m_pow_block = new PowBlock(m_renderer, m_level_map);
-
-	CreateKoopa(Vector2D(150, 32), Facing::RIGHT, KOOPA_SPEED);
-	CreateKoopa(Vector2D(325, 32), Facing::LEFT, KOOPA_SPEED);
-}
-
-void GameScreenLevel1::SetUpSFX()
-{
-	m_coin_sound = new SoundEffect(m_audio_manager, "Audio/SFX/smb_coin.wav", 0);
-	m_kick_sound = new SoundEffect(m_audio_manager, "Audio/SFX/smb_kick.wav", 0);
-	m_mario_jump_sound = new SoundEffect(m_audio_manager, "Audio/SFX/smb_jump-small.wav", 1);
-	m_luigi_jump_sound = new SoundEffect(m_audio_manager, "Audio/SFX/smb_jump-super.wav", 2);
-	m_stomp_sound = new SoundEffect(m_audio_manager, "Audio/SFX/smb_stomp.wav", 3);
-}
-
 GameScreenLevel1::GameScreenLevel1(SDL_Renderer* renderer, AudioManager* audio_manager) : GameScreen(renderer, audio_manager)
 {
     SetUpLevel();
@@ -101,6 +30,77 @@ GameScreenLevel1::~GameScreenLevel1()
 	delete m_mario_jump_sound;
 	delete m_luigi_jump_sound;
 	delete m_stomp_sound;
+}
+
+bool GameScreenLevel1::SetUpLevel()
+{
+	// Initialise screen shake variables
+	m_screen_shaking = false;
+	m_shake_time = SCREEN_SHAKE_DURATION;
+	m_wobble = 0.0f;
+	m_background_yPos = 0.0f;
+    
+	// Initialise level map to nullptr
+	m_level_map = nullptr;
+    
+	// Load background texture
+	m_background_texture = new Texture2D(m_renderer);
+	if (!m_background_texture->LoadFromFile("Images/BackgroundMB.png"))
+	{
+		std::cout << "Failed to load background texture!" << std::endl;
+		return false;
+	}
+
+	if (!SetBGM("Audio/Music/Mario.mp3"))
+	{
+		return false;
+	}
+
+	// Set level map
+	SetLevelMap();
+
+	// Load sound effects
+	SetUpSFX();
+
+	// Create characters and POW block
+	SetUpEntities();
+
+	// Set up spawner variables
+	m_enemy_spawn_side = 0;
+	m_enemy_spawn_timer = LEVEL_1_SPAWNER_DELAY;
+    
+	return true;
+}
+
+void GameScreenLevel1::SetLevelMap()
+{
+	// Delete old map if still exists
+	if (m_level_map != nullptr)
+	{
+		delete m_level_map;
+	}
+
+	// Set new map
+	m_level_map = LevelMap::LoadFromFile("Levels/01.txt");
+}
+
+void GameScreenLevel1::SetUpEntities()
+{
+	m_character_mario = new CharacterMario(m_renderer, Vector2D(64, 300), m_level_map);
+	m_character_luigi = new CharacterLuigi(m_renderer, Vector2D(256, 280), m_level_map);
+	m_pow_block = new PowBlock(m_renderer, m_level_map);
+
+	CreateKoopa(Vector2D(150, 32), Facing::RIGHT, KOOPA_SPEED);
+	CreateKoopa(Vector2D(325, 32), Facing::LEFT, KOOPA_SPEED);
+}
+
+void GameScreenLevel1::SetUpSFX()
+{
+	m_coin_sound = new SoundEffect(m_audio_manager, "Audio/SFX/smb_coin.wav", 0);
+	m_kick_sound = new SoundEffect(m_audio_manager, "Audio/SFX/smb_kick.wav", 0);
+	m_mario_jump_sound = new SoundEffect(m_audio_manager, "Audio/SFX/smb_jump-small.wav", 1);
+	m_luigi_jump_sound = new SoundEffect(m_audio_manager, "Audio/SFX/smb_jump-super.wav", 2);
+	m_stomp_sound = new SoundEffect(m_audio_manager, "Audio/SFX/smb_stomp.wav", 3);
 }
 
 void GameScreenLevel1::Render()

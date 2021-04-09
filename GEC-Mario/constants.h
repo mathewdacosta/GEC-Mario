@@ -13,9 +13,8 @@ const int MIXER_CHUNK_SIZE = 2048;
 const int MIXER_CHANNELS = 16;
 
 // Character movement characteristics
-const float GRAVITY = 220.0f;
-const float JUMP_FORCE_DECREMENT = 600.0f;
-const float INITIAL_JUMP_FORCE = 300.0f;
+const float GRAVITY = 640.0f;
+const float INITIAL_JUMP_FORCE = 330.0f;
 
 const float MARIO_MOVE_SPEED = 96.0f;
 const float LUIGI_MOVE_SPEED = 112.0f;

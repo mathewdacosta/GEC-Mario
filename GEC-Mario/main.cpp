@@ -152,7 +152,7 @@ bool Update()
 
 void Render()
 {
-	SDL_SetRenderDrawColor(g_renderer, 0xFF, 0xFF, 0xFF, 0xFF);
+	SDL_SetRenderDrawColor(g_renderer, 0x00, 0x00, 0x00, 0xFF);
 	SDL_RenderClear(g_renderer);
 
 	// Render screen manager

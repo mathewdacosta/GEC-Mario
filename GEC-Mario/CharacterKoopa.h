@@ -29,7 +29,6 @@ public:
     void Update(float deltaTime, SDL_Event e) override;
     
     void TakeDamage();
-    void Jump();
 
     Rect2D GetCollisionBox() override;
     bool IsInjured() { return m_injured; }

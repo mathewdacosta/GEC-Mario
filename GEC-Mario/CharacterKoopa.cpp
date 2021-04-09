@@ -6,7 +6,7 @@
 
 CharacterKoopa::CharacterKoopa(SDL_Renderer* renderer, std::string imagePath, SoundEffect* stomp_sound, LevelMap* map,
                                Vector2D start_position, Facing start_facing, float movement_speed)
-    : Character(renderer, imagePath, start_position, movement_speed, 16.0f, map)
+    : Character(renderer, imagePath, start_position, movement_speed, 1, KOOPA_INITIAL_JUMP_FORCE, 16.0f, map)
 {
     m_facing_direction = start_facing;
     m_injured = false;
@@ -88,16 +88,6 @@ void CharacterKoopa::TakeDamage()
     m_injured = true;
     m_injured_time = KOOPA_INJURY_TIME;
     m_stomp_sound->Play();
-}
-
-void CharacterKoopa::Jump()
-{
-    if (!m_jumping)
-    {
-        m_jump_force = KOOPA_INITIAL_JUMP_FORCE;
-        m_jumping = true;
-        m_can_jump = false;
-    }
 }
 
 // Not to be confused with a flip reset, that's a different game
