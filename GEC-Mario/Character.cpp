@@ -4,25 +4,23 @@
 #include "constants.h"
 #include "Texture2D.h"
 
-Character::Character(SDL_Renderer* renderer, std::string image_path, Vector2D start_position, float movement_speed, float jump_force, short max_jumps, float collision_radius, LevelMap* map)
+Character::Character(SDL_Renderer* renderer, std::string image_path, Vector2D start_position, float movement_speed,
+                     float jump_force, short max_jumps, float collision_radius, LevelMap* map) :
+    m_renderer(renderer),
+    m_position(start_position),
+    m_current_level_map(map),
+    m_movement_speed(movement_speed),
+    m_jump_force(jump_force),
+    m_max_jumps(max_jumps),
+    m_collision_radius(collision_radius),
+    m_facing_direction(Facing::RIGHT),
+    m_moving_left(false),
+    m_moving_right(false),
+    m_jump_ascending(false),
+    m_remaining_jumps(max_jumps),
+    m_velocity_y(0.0f),
+    m_alive(true)
 {
-    m_renderer = renderer;
-    m_position = start_position;
-    m_movement_speed = movement_speed;
-    m_collision_radius = collision_radius;
-    m_current_level_map = map;
-    
-    m_facing_direction = Facing::RIGHT;
-    m_moving_left = false;
-    m_moving_right = false;
-    // m_jumping = false;
-    // m_can_jump = true;
-    m_jump_force = jump_force;
-    m_max_jumps = max_jumps;
-    m_remaining_jumps = max_jumps;
-    m_jump_velocity = 0.0f;
-    m_alive = true;
-    
     m_texture = new Texture2D(m_renderer);
     if (!m_texture->LoadFromFile(image_path))
     {
@@ -38,7 +36,8 @@ Character::~Character()
 
 void Character::Jump()
 {
-    m_jump_velocity = m_jump_force;
+    m_velocity_y = m_jump_force;
+    m_jump_ascending = true;
     m_remaining_jumps -= 1;
 }
 
@@ -57,7 +56,7 @@ void Character::MoveRight(float deltaTime)
 
 void Character::AddGravity(float deltaTime)
 {
-    m_jump_velocity -= deltaTime * GRAVITY;
+    m_velocity_y -= deltaTime * GRAVITY;
 }
 
 bool Character::CanJump()
@@ -70,9 +69,14 @@ bool Character::IsJumping()
     return m_remaining_jumps < m_max_jumps;
 }
 
-void Character::CancelJump()
+void Character::CancelJump(bool force)
 {
-    m_remaining_jumps = m_max_jumps;
+    // If we're still ascending when we collide with something, don't cancel
+    if (force || !m_jump_ascending)
+    {
+        m_remaining_jumps = m_max_jumps;
+        m_velocity_y = 0.0f;
+    }
 }
 
 void Character::Render()
@@ -82,10 +86,23 @@ void Character::Render()
         flip = SDL_FLIP_HORIZONTAL;
     else
         flip = SDL_FLIP_NONE;
-    
+
     m_texture->Render(m_position, flip);
+
+#ifdef DEBUG_DRAW_CHARACTER_BOXES
+    SDL_SetRenderDrawColor(m_renderer, 127, 0, 127, 255);
+    Rect2D collision = GetCollisionBox();
+    SDL_Rect sdlRect = {
+        collision.x,
+        collision.y,
+        collision.width,
+        collision.height
+    };
+
+    SDL_RenderDrawRect(m_renderer, &sdlRect);
+#endif
 }
-    
+
 void Character::Update(float deltaTime, SDL_Event e)
 {
     HandleInput(deltaTime, e);
@@ -95,24 +112,29 @@ void Character::Update(float deltaTime, SDL_Event e)
 void Character::UpdateMovement(float deltaTime)
 {
     // Adjust position for jump/fall
-    m_position.y -= m_jump_velocity * deltaTime;
+    m_position.y -= m_velocity_y * deltaTime;
+
+    // Apply gravity
     AddGravity(deltaTime);
+    if (m_velocity_y <= 0)
+    {
+        m_jump_ascending = false;
+    }
 
     Rect2D collisionBox = GetCollisionBox();
-    int posXCenter = (int) (collisionBox.x + (collisionBox.width * 0.5)) / TILE_WIDTH;
-    int posYFoot = (int) (collisionBox.y + collisionBox.height) / TILE_HEIGHT;
-    
+    int posXCenter = (int)(collisionBox.x + (collisionBox.width * 0.5)) / TILE_WIDTH;
+    int posYFoot = (int)(collisionBox.y + collisionBox.height) / TILE_HEIGHT;
+
     if (!m_current_level_map->GetTileAt(posYFoot, posXCenter) == 0)
     {
         // Cancel jump
         CancelJump();
 
-        /* TODO: this is bugged
-         *   - we want to stop velocity when character foot touches a solid tile
-         *   - don't stop velocity when character first jumps, even if embedded in a tile
-         *   - the velocity refactor removed the separate "is currently ascending in a jump" state; maybe add this back in by checking IsJumping && velocity <= 0
-         */
-        m_jump_velocity = 0.0f;
+        // If we're still ascending during a jump, don't reset velocity
+        if (!m_jump_ascending)
+        {
+            m_velocity_y = 0.0f;
+        }
     }
 
     if (m_moving_left)
@@ -125,7 +147,9 @@ void Character::UpdateMovement(float deltaTime)
     }
 }
 
-void Character::HandleInput(float deltaTime, SDL_Event e) {}
+void Character::HandleInput(float deltaTime, SDL_Event e)
+{
+}
 
 void Character::SetPosition(Vector2D new_position)
 {

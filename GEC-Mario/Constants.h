@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Common.h"
+#include "DebugConstants.h"
 
 // Screen dimensions
 #define SCREEN_WIDTH 512
@@ -13,11 +14,11 @@ const int MIXER_CHUNK_SIZE = 2048;
 const int MIXER_CHANNELS = 16;
 
 // Character movement characteristics
-const float GRAVITY = 640.0f;
-const float INITIAL_JUMP_FORCE = 330.0f;
+const float GRAVITY = 1100.0f;
+const float INITIAL_JUMP_FORCE = 450.0f;
 
-const float MARIO_MOVE_SPEED = 96.0f;
-const float LUIGI_MOVE_SPEED = 112.0f;
+const float MARIO_MOVE_SPEED = 100.0f;
+const float LUIGI_MOVE_SPEED = 136.0f;
 
 // Map properties
 const int TILE_HEIGHT = 32;
@@ -30,7 +31,7 @@ const float SCREEN_SHAKE_DURATION = 0.3f;
 
 // Enemy parameters
 const float KOOPA_INJURY_TIME = 3.5f;
-const float KOOPA_INITIAL_JUMP_FORCE = 180.0f;
+const float KOOPA_INITIAL_JUMP_FORCE = 240.0f;
 const float KOOPA_SPEED = 96.0f;
 
 // Level 1 parameters

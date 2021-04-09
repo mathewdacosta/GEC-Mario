@@ -118,14 +118,17 @@ void GameScreenLevel1::Render()
         m_enemies[i]->Render();
 	}
 
-    // RenderDebugGrid();
+	#ifdef DEBUG_DRAW_TILES
+    RenderDebugGrid();
+	#endif
 }
 
 void GameScreenLevel1::Update(float deltaTime, SDL_Event e)
 {
     m_character_mario->Update(deltaTime, e);
     m_character_luigi->Update(deltaTime, e);
-    UpdatePOWBlock();
+    CheckPOWBlockCollisions(m_character_mario);
+    CheckPOWBlockCollisions(m_character_luigi);
     UpdateEnemies(deltaTime, e);
 	UpdateSpawners(deltaTime);
 
@@ -145,16 +148,15 @@ void GameScreenLevel1::Update(float deltaTime, SDL_Event e)
     }
 }
 
-
-void GameScreenLevel1::UpdatePOWBlock()
+void GameScreenLevel1::CheckPOWBlockCollisions(Character* character)
 {
-    bool isColliding = Collisions::Instance()->Box(m_character_mario->GetCollisionBox(), m_pow_block->GetCollisionBox());
+    const bool isColliding = Collisions::Instance()->Box(character->GetCollisionBox(), m_pow_block->GetCollisionBox());
 
-    if (isColliding && m_pow_block->IsAvailable() && m_character_mario->IsJumping())
+    if (isColliding && m_pow_block->IsAvailable() && character->IsJumping())
     {
         DoScreenShake();
         m_pow_block->TakeHit();
-        m_character_mario->CancelJump();
+        character->CancelJump(true);
     }
 }
 

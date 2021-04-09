@@ -47,7 +47,7 @@ private:
     void SetUpSFX();
     void CreateKoopa(Vector2D position, Facing direction, float speed);
 
-    void UpdatePOWBlock();
+    void CheckPOWBlockCollisions(Character* character);
     void DoScreenShake();
     void RenderDebugGrid();
     void UpdateEnemies(float deltaTime, SDL_Event e);

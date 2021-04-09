@@ -176,7 +176,8 @@
     <ClInclude Include="CharacterMario.h" />
     <ClInclude Include="Collisions.h" />
     <ClInclude Include="Common.h" />
-    <ClInclude Include="constants.h" />
+    <ClInclude Include="Constants.h" />
+    <ClInclude Include="DebugConstants.h" />
     <ClInclude Include="GameScreen.h" />
     <ClInclude Include="GameScreenIntro.h" />
     <ClInclude Include="GameScreenLevel1.h" />
@@ -192,6 +193,26 @@
     <Library Include="SDL2\SDL\SDL2main.lib" />
     <Library Include="SDL2\SDL\SDL2_image.lib" />
     <Library Include="SDL2\SDL\SDL2_mixer.lib" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Audio\Music\Mario.mp3" />
+    <Content Include="Audio\Music\MarioUnderworld.mp3" />
+    <Content Include="Audio\SFX\README.md" />
+    <Content Include="Audio\SFX\smb_coin.wav" />
+    <Content Include="Audio\SFX\smb_jump-small.wav" />
+    <Content Include="Audio\SFX\smb_jump-super.wav" />
+    <Content Include="Audio\SFX\smb_kick.wav" />
+    <Content Include="Audio\SFX\smb_stomp.wav" />
+    <Content Include="Images\BackgroundMB.pdn" />
+    <Content Include="Images\BackgroundMB.png" />
+    <Content Include="Images\Coin.png" />
+    <Content Include="Images\Goomba.png" />
+    <Content Include="Images\Koopa.png" />
+    <Content Include="Images\Luigi.png" />
+    <Content Include="Images\Mario.png" />
+    <Content Include="Images\PowBlock.png" />
+    <Content Include="Images\test-2.bmp" />
+    <Content Include="Images\test.bmp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

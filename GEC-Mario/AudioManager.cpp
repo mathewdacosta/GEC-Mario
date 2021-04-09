@@ -85,6 +85,10 @@ void AudioManager::FreeMusic(Mix_Music* music)
 
 void AudioManager::PlayMusic(Mix_Music* music, int loops)
 {
+    #ifdef DEBUG_AUDIO_DISABLE_MUSIC
+    return;
+    #endif
+    
     if (!m_initialised)
     {
         std::cout << "Tried to play music before mixer init (music address: " << music << ")" << std::endl;
@@ -164,6 +168,10 @@ void AudioManager::FreeSound(Mix_Chunk* sound)
 
 int AudioManager::PlaySound(Mix_Chunk* sound, int loops, int channel, int duration)
 {
+    #ifdef DEBUG_AUDIO_DISABLE
+    return -1;
+    #endif
+    
     if (!m_initialised)
     {
         std::cout << "Tried to play sound before mixer init (sound address: " << sound << ")" << std::endl;

@@ -17,23 +17,21 @@ protected:
     SDL_Renderer* m_renderer;
     Vector2D m_position;
     Texture2D* m_texture;
-
     LevelMap* m_current_level_map;
+
+    const float m_movement_speed;
+    const float m_jump_force;
+    const short m_max_jumps;
+    const float m_collision_radius;
     
     Facing m_facing_direction;
     bool m_moving_left;
     bool m_moving_right;
-    float m_movement_speed;
-    //bool m_jumping;
-    //bool m_can_jump;
-    float m_jump_force;
+    bool m_jump_ascending;
     short m_remaining_jumps;
-    short m_max_jumps;
     
-    float m_jump_velocity;
+    float m_velocity_y;
     bool m_alive;
-
-    float m_collision_radius;
 
     virtual void Jump();
     virtual void MoveLeft(float deltaTime);
@@ -59,7 +57,7 @@ public:
     virtual Rect2D GetCollisionBox();
 
     bool IsJumping();
-    void CancelJump();
+    void CancelJump(bool force = false);
 
     bool IsAlive() { return m_alive; }
     void SetAlive(bool alive) { m_alive = alive; }

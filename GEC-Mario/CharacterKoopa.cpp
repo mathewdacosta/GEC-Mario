@@ -5,15 +5,14 @@
 #include "Texture2D.h"
 
 CharacterKoopa::CharacterKoopa(SDL_Renderer* renderer, std::string imagePath, SoundEffect* stomp_sound, LevelMap* map,
-                               Vector2D start_position, Facing start_facing, float movement_speed)
-    : Character(renderer, imagePath, start_position, movement_speed, 1, KOOPA_INITIAL_JUMP_FORCE, 16.0f, map)
-{
+                               Vector2D start_position, Facing start_facing, float movement_speed) :
+    Character(renderer, imagePath, start_position, movement_speed, KOOPA_INITIAL_JUMP_FORCE, 1, 16.0f, map),
+    m_injured(false),
+    m_injured_time(0.0f),
+    m_stomp_sound(stomp_sound)
+{ 
     m_facing_direction = start_facing;
-    m_injured = false;
-    m_injured_time = 0.0f;
     
-    m_stomp_sound = stomp_sound;
-
     m_single_sprite_w = m_texture->GetWidth() / 2;
     m_single_sprite_h = m_texture->GetHeight();
 }
@@ -41,14 +40,15 @@ void CharacterKoopa::Render()
         m_texture->Render(src_rect, dest_rect, SDL_FLIP_HORIZONTAL);
     }
 
-    //todo remove
-    Rect2D collisionBox = GetCollisionBox();
-    int posXCenter = (int)(collisionBox.x + (collisionBox.width * 0.5));
-    int posYFoot = (int)(collisionBox.y + (collisionBox.height));
+#ifdef DEBUG_DRAW_KOOPA_BASE
+    Rect2D collision = GetCollisionBox();
+    int posXCenter = (int)(collision.x + (collision.width * 0.5));
+    int posYFoot = (int)(collision.y + (collision.height));
     SDL_SetRenderDrawColor(m_renderer, 255, 0, 255, 255);
     if (posYFoot > 300)
         SDL_SetRenderDrawColor(m_renderer, 255, 255, 0, 255);
     SDL_RenderDrawLine(m_renderer, posXCenter, posYFoot, posXCenter, posYFoot + 10);
+#endif
 }
 
 void CharacterKoopa::Update(float deltaTime, SDL_Event e)
