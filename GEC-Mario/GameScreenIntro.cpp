@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-bool GameScreenIntro::SetUpLevel()
+bool GameScreenIntro::Setup()
 {
     // Load background texture
     m_background_texture = new Texture2D(m_renderer);
@@ -22,7 +22,6 @@ bool GameScreenIntro::SetUpLevel()
 
 GameScreenIntro::GameScreenIntro(SDL_Renderer* renderer, AudioManager* audio_manager) : GameScreen(renderer, audio_manager)
 {
-    SetUpLevel();
 }
 
 GameScreenIntro::~GameScreenIntro()

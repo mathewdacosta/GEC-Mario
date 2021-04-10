@@ -1,7 +1,7 @@
 #include "CharacterLuigi.h"
 
-CharacterLuigi::CharacterLuigi(SDL_Renderer* renderer, Vector2D start_position, LevelMap* map)
-    : Player(renderer, "Images/Luigi.png", start_position, LUIGI_MOVE_SPEED, INITIAL_JUMP_FORCE, 2, 16.0f, map)
+CharacterLuigi::CharacterLuigi(SDL_Renderer* renderer, Vector2D start_position, LevelMap* map, SoundEffect* jump_sound)
+    : Player(renderer, "Images/Luigi.png", start_position, LUIGI_MOVE_SPEED, INITIAL_JUMP_FORCE, 2, 16.0f, map, jump_sound)
 {
 }
 

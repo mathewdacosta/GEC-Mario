@@ -1,5 +1,7 @@
 ﻿#include "GameScreenManager.h"
 
+#include <iostream>
+
 #include "GameScreen.h"
 #include "GameScreenIntro.h"
 #include "GameScreenLevel1.h"
@@ -49,4 +51,11 @@ void GameScreenManager::ChangeScreen(SCREENS new_screen)
         m_current_screen = new GameScreenLevel1(m_renderer, m_audio_manager);
         break;
     }
+
+    bool setupSuccess = m_current_screen->Setup();
+
+	if (!setupSuccess)
+	{
+        std::cout << "Level setup failed!" << std::endl;
+	}
 }

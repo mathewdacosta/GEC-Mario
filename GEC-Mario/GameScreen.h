@@ -20,6 +20,7 @@ public:
 	GameScreen(SDL_Renderer* renderer, AudioManager* audio_manager);
 	virtual ~GameScreen();
 
+	virtual bool Setup() = 0;
 	virtual void Render();
 	virtual void Update(float deltaTime, SDL_Event e);
 };

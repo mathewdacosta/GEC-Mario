@@ -13,7 +13,7 @@ private:
 	const SDL_Keycode GetRightKey() override;
 
 public:
-	CharacterLuigi(SDL_Renderer* renderer, Vector2D start_position, LevelMap* map);
+	CharacterLuigi(SDL_Renderer* renderer, Vector2D start_position, LevelMap* map, SoundEffect* jump_sound);
 };
 
 #endif
