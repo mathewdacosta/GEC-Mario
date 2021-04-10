@@ -51,6 +51,5 @@ protected:
 
 public:
 	bool Setup() override;
-	
 };
 

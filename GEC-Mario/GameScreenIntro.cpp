@@ -3,6 +3,8 @@
 #include <iostream>
 #include <sstream>
 
+#include "TextBox.h"
+
 GameScreenIntro::GameScreenIntro(SDL_Renderer* renderer, AudioManager* audio_manager) : GameScreen(renderer, audio_manager)
 {
 }
@@ -35,6 +37,10 @@ bool GameScreenIntro::Setup()
         // Already logged - just return
         return false;
     }
+
+    m_text_1p = new TextBox(m_hud_font, "ONE PLAYER", { 256, 220 }, TextColor::WHITE, TextColor::BLACK, false, TextAlignHorizontal::CENTER);
+    m_text_2p = new TextBox(m_hud_font, "TWO PLAYERS", { 256, 250 }, TextColor::WHITE, TextColor::BLACK, true, TextAlignHorizontal::CENTER);
+    m_text_mouse_pos = new TextBox(m_hud_font, "MOUSE", { 500, 410 }, TextColor::WHITE, TextColor::BLACK, false, TextAlignHorizontal::RIGHT, TextAlignVertical::BOTTOM);
     
     return true;
 }
@@ -45,15 +51,26 @@ void GameScreenIntro::Render()
     m_background_texture->Render(Vector2D(), SDL_FLIP_NONE);
 
     // Draw text
-    m_hud_font->DrawSolid("1 PLAYER", { 256, 220 }, TextColor::WHITE, TextAlignHorizontal::CENTER);
-    m_hud_font->DrawShaded("! 2 players !", { 256, 250 }, TextColor::WHITE, TextColor::BLACK, TextAlignHorizontal::CENTER);
-    int x, y = 0;
-    SDL_GetMouseState(&x, &y);
-    std::stringstream score;
-    score << "X " << x << " Y " << y;
-    m_hud_font->DrawBlended(score.str(), { 500, 400 }, { 0, 0, 0, 0xFF }, TextAlignHorizontal::RIGHT, TextAlignVertical::BOTTOM);
+    m_text_1p->Draw();
+    m_text_2p->Draw();
+    m_text_mouse_pos->Draw();
 }
 
 void GameScreenIntro::Update(float deltaTime, SDL_Event e)
 {
+    switch (e.type)
+    {
+    case SDL_MOUSEBUTTONDOWN:
+        switch (e.button.button)
+        {
+        case SDL_BUTTON_LEFT:
+            break;
+        }
+    }
+
+    int x, y = 0;
+    SDL_GetMouseState(&x, &y);
+    std::stringstream score;
+    score << "MOUSE X \n" << x << " Y " << y;
+    m_text_mouse_pos->SetText(score.str());    
 }
