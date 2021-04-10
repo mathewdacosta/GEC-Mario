@@ -3,7 +3,7 @@
 
 #include <SDL.h>
 #include <SDL_image.h>
-
+#include <SDL_ttf.h>
 
 #include "AudioManager.h"
 #include "constants.h"
@@ -33,6 +33,7 @@ int main(int argc, char* args[])
 	if (InitSDL())
 	{
 		// Set up screen manager
+		// TODO: start on main menu
 		g_screen_manager = new GameScreenManager(g_renderer, g_audio_manager, SCREEN_LEVEL_1);
 		// Set time
 		g_old_time = SDL_GetTicks();
@@ -96,6 +97,12 @@ bool InitSDL()
 		return false;
 	}
 
+	if (TTF_Init() < 0)
+	{
+		std::cout << "SDL_ttf initialisation failed. Error: " << TTF_GetError();
+		return false;
+	}
+
 	return true;
 }
 
@@ -114,6 +121,7 @@ void CloseSDL()
 	delete g_audio_manager;
 
 	IMG_Quit();
+	TTF_Quit();
 	SDL_Quit();
 }
 
@@ -134,7 +142,6 @@ bool Update()
 		{
 		case SDLK_q:
 			return true;
-			break;
 		case SDLK_m:
 			g_screen_manager->ChangeScreen(SCREEN_INTRO);
 			break;
@@ -152,7 +159,7 @@ bool Update()
 
 void Render()
 {
-	SDL_SetRenderDrawColor(g_renderer, 0x00, 0x00, 0x00, 0xFF);
+	SDL_SetRenderDrawColor(g_renderer, 0x00, 0x00, 0x10, 0xFF);
 	SDL_RenderClear(g_renderer);
 
 	// Render screen manager

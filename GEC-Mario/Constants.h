@@ -13,10 +13,11 @@ const int MIXER_OUTPUT_CHANNELS = 2;
 const int MIXER_CHUNK_SIZE = 2048;
 const int MIXER_CHANNELS = 16;
 
-// Character movement characteristics
-const float GRAVITY = 1100.0f;
-const float INITIAL_JUMP_FORCE = 450.0f;
+// Physics
+const float GRAVITY = 1130.0f;
 
+// Character movement characteristics
+const float INITIAL_JUMP_FORCE = 460.0f;
 const float MARIO_MOVE_SPEED = 100.0f;
 const float LUIGI_MOVE_SPEED = 136.0f;
 
@@ -31,7 +32,7 @@ const float SCREEN_SHAKE_DURATION = 0.3f;
 
 // Enemy parameters
 const float KOOPA_INJURY_TIME = 3.5f;
-const float KOOPA_INITIAL_JUMP_FORCE = 240.0f;
+const float KOOPA_INITIAL_JUMP_FORCE = 260.0f;
 const float KOOPA_SPEED = 96.0f;
 
 // Level 1 parameters

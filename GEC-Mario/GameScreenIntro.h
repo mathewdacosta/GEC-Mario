@@ -1,8 +1,8 @@
 ﻿#pragma once
-#include <SDL_mixer.h>
 
 #include "GameScreen.h"
 #include "AudioManager.h"
+#include "Font.h"
 #include "Texture2D.h"
 
 #ifndef _GAMESCREENINTRO_H
@@ -12,6 +12,7 @@ class GameScreenIntro : public GameScreen
 {
 private:
     Texture2D* m_background_texture;
+    Font* m_hud_font;
 
 public:
     GameScreenIntro(SDL_Renderer* renderer, AudioManager* audio_manager);

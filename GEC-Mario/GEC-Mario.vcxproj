@@ -88,7 +88,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(PROJECTDIR)\SDL2\SDL\mixer_include;$(PROJECTDIR)\SDL2\SDL\image_include;$(PROJECTDIR)\SDL2\SDL\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(PROJECTDIR)\SDL2\SDL\mixer_include;$(PROJECTDIR)\SDL2\SDL\image_include;$(PROJECTDIR)\SDL2\SDL\ttf_include;$(PROJECTDIR)\SDL2\SDL\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -157,6 +157,7 @@
     <ClCompile Include="CharacterLuigi.cpp" />
     <ClCompile Include="CharacterMario.cpp" />
     <ClCompile Include="Collisions.cpp" />
+    <ClCompile Include="Font.cpp" />
     <ClCompile Include="GameScreen.cpp" />
     <ClCompile Include="GameScreenIntro.cpp" />
     <ClCompile Include="GameScreenLevel1.cpp" />
@@ -179,6 +180,7 @@
     <ClInclude Include="Common.h" />
     <ClInclude Include="Constants.h" />
     <ClInclude Include="DebugConstants.h" />
+    <ClInclude Include="Font.h" />
     <ClInclude Include="GameScreen.h" />
     <ClInclude Include="GameScreenIntro.h" />
     <ClInclude Include="GameScreenLevel1.h" />
@@ -195,6 +197,7 @@
     <Library Include="SDL2\SDL\SDL2main.lib" />
     <Library Include="SDL2\SDL\SDL2_image.lib" />
     <Library Include="SDL2\SDL\SDL2_mixer.lib" />
+    <Library Include="SDL2\SDL\SDL2_ttf.lib" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Audio\Music\Mario.mp3" />
@@ -205,6 +208,7 @@
     <Content Include="Audio\SFX\smb_jump-super.wav" />
     <Content Include="Audio\SFX\smb_kick.wav" />
     <Content Include="Audio\SFX\smb_stomp.wav" />
+    <Content Include="Fonts\Super-Mario-World.ttf" />
     <Content Include="Images\BackgroundMB.pdn" />
     <Content Include="Images\BackgroundMB.png" />
     <Content Include="Images\Coin.png" />
