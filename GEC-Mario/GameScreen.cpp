@@ -41,10 +41,6 @@ bool GameScreen::SetBGM(std::string path)
     return true;
 }
 
-void GameScreen::Render()
-{
-}
-
 void GameScreen::Update(float deltaTime, SDL_Event e)
 {
 }

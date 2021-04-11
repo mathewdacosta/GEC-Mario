@@ -21,7 +21,7 @@ public:
 	virtual ~GameScreen();
 
 	virtual bool Setup() = 0;
-	virtual void Render();
+	virtual void Render() = 0;
 	virtual void Update(float deltaTime, SDL_Event e);
 };
 #endif

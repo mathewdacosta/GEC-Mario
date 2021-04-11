@@ -44,14 +44,15 @@ struct Rect2D
 	}
 };
 
-enum SCREENS
+enum class Screen
 {
-	SCREEN_INTRO,
-	SCREEN_MENU,
-	SCREEN_LEVEL_1,
-	SCREEN_LEVEL_2,
-	SCREEN_GAME_OVER,
-	SCREEN_HIGH_SCORES
+	INTRO,
+	MENU,
+	LEVEL_1,
+	LEVEL_2,
+	GAME_OVER,
+	HIGH_SCORES,
+	ERROR
 };
 
 enum class Facing

@@ -12,13 +12,16 @@ class GameScreenManager
     SDL_Renderer* m_renderer;
     AudioManager* m_audio_manager;
     GameScreen* m_current_screen;
+    Screen m_next_screen;
+    bool m_screen_queued;
     
 public:
-    GameScreenManager(SDL_Renderer* renderer, AudioManager* audio_manager, SCREENS start_screen);
+    GameScreenManager(SDL_Renderer* renderer, AudioManager* audio_manager, Screen start_screen);
     ~GameScreenManager();
 
     void Render();
     void Update(float deltaTime, SDL_Event e);
 
-    void ChangeScreen(SCREENS new_screen);
+    void ChangeScreen(Screen new_screen);
+    void QueueScreen(Screen next_screen);
 };

@@ -34,7 +34,7 @@ int main(int argc, char* args[])
 	{
 		// Set up screen manager
 		// TODO: start on main menu
-		g_screen_manager = new GameScreenManager(g_renderer, g_audio_manager, SCREEN_LEVEL_1);
+		g_screen_manager = new GameScreenManager(g_renderer, g_audio_manager, Screen::INTRO);
 		// Set time
 		g_old_time = SDL_GetTicks();
 		
@@ -143,10 +143,10 @@ bool Update()
 		case SDLK_q:
 			return true;
 		case SDLK_m:
-			g_screen_manager->ChangeScreen(SCREEN_INTRO);
+			g_screen_manager->ChangeScreen(Screen::INTRO);
 			break;
 		case SDLK_n:
-			g_screen_manager->ChangeScreen(SCREEN_LEVEL_1);
+			g_screen_manager->ChangeScreen(Screen::LEVEL_1);
 			break;
 		}
 	}
