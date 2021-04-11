@@ -28,7 +28,10 @@ GameScreenManager::~GameScreenManager()
 
 void GameScreenManager::Render()
 {
-    m_current_screen->Render();
+    if (!m_screen_queued)
+    {
+        m_current_screen->Render();
+    }
 }
 
 void GameScreenManager::Update(float deltaTime, SDL_Event e)
@@ -68,7 +71,7 @@ void GameScreenManager::ChangeScreen(Screen new_screen)
 
 	if (!setupSuccess)
 	{
-        std::cout << "Level setup failed!" << std::endl;
+        std::cout << "Screen setup failed!" << std::endl;
 	    QueueScreen(Screen::ERROR);
 	}
 }
