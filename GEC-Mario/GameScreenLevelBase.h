@@ -10,6 +10,9 @@
 
 class GameScreenLevelBase : public GameScreen
 {
+private:
+	void CheckPlayerEnemyCollision(Player* player, Enemy* enemy);
+
 protected:
     const std::string m_bg_image_path;
     const std::string m_bg_music_path;

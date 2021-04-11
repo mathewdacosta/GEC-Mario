@@ -50,6 +50,23 @@ GameScreenLevelBase::~GameScreenLevelBase()
 	delete m_stomp_sound;
 }
 
+void GameScreenLevelBase::CheckPlayerEnemyCollision(Player* player, Enemy* enemy)
+{
+	if (Collisions::Instance()->Circle(enemy, player))
+	{
+		if (enemy->IsInjured())
+		{
+			// Kill enemy when collided
+			enemy->SetAlive(false);
+			m_kick_sound->Play();
+			m_session->score += enemy->GetKillScore();
+		}
+		else
+		{
+			// TODO: kill player
+		}
+	}
+}
 
 bool GameScreenLevelBase::Setup()
 {
@@ -207,33 +224,8 @@ void GameScreenLevelBase::UpdateEnemies(float deltaTime, SDL_Event e)
 			// Check enemy collisions if enemy is not behind pipe
 			if (!((posY > 300.0f || posY <= 64.0f) && (posX <  64.0f || posX > SCREEN_WIDTH - 96.0f)))
 			{
-				if (Collisions::Instance()->Circle(current, m_character_mario))
-				{
-					if (current->IsInjured())
-					{
-						// Kill enemy when collided
-						current->SetAlive(false);
-						m_kick_sound->Play();
-						m_session->score += current->GetKillScore();
-					}
-					else
-					{
-						// TODO: kill mario
-					}
-				}
-				else if (Collisions::Instance()->Circle(current, m_character_luigi))
-				{
-					if (current->IsInjured())
-					{
-						// Kill enemy when collided
-						current->SetAlive(false);
-						m_kick_sound->Play();
-					}
-					else
-					{
-						// TODO: kill luigi
-					}
-				}
+				CheckPlayerEnemyCollision(m_character_mario, current);
+				CheckPlayerEnemyCollision(m_character_luigi, current);
 			}
 
 			// Check whether enemy is dead and schedule for deletion
