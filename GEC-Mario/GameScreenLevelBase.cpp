@@ -1,17 +1,23 @@
 #include "GameScreenLevelBase.h"
 
 #include <iostream>
-
+#include <iomanip>
+#include <sstream>
 
 #include "Collisions.h"
+#include "Font.h"
 #include "Texture2D.h"
 #include "SoundEffect.h"
+#include "TextBox.h"
 
-GameScreenLevelBase::GameScreenLevelBase(SDL_Renderer* renderer, AudioManager* audio_manager, std::string bg_image_path, std::string bg_music_path, std::string level_map_path) :
-	GameScreen(renderer, audio_manager),
+GameScreenLevelBase::GameScreenLevelBase(SDL_Renderer* renderer, AudioManager* audio_manager, GameSession* session, std::string bg_image_path, std::string bg_music_path, std::string level_map_path) :
+	GameScreen(renderer, audio_manager, session),
 	m_bg_image_path(bg_image_path),
 	m_bg_music_path(bg_music_path),
-	m_level_map_path(level_map_path)
+	m_level_map_path(level_map_path),
+	m_screen_shaking(false),
+	m_shake_time(SCREEN_SHAKE_DURATION),
+	m_wobble(0.0f)
 {
 	// Initialise screen shake variables
 	m_screen_shaking = false;
@@ -26,6 +32,8 @@ GameScreenLevelBase::GameScreenLevelBase(SDL_Renderer* renderer, AudioManager* a
 GameScreenLevelBase::~GameScreenLevelBase()
 {
 	delete m_background_texture;
+	delete m_hud_font;
+	delete m_score_box;
 	delete m_character_mario;
 	delete m_character_luigi;
 
@@ -63,6 +71,20 @@ bool GameScreenLevelBase::SetUpLevel()
 		return false;
 	}
 
+	m_hud_font = new Font(m_renderer, "Fonts/Super-Mario-World.ttf", 14);
+	if (!m_hud_font->IsLoaded())
+	{
+		// Already logged - just return
+		return false;
+	}
+
+	// Ensure we have at least 1 player
+	if (m_session->players < 1)
+		m_session->players = 1;
+
+	// Set up score HUD
+	m_score_box = new TextBox(m_hud_font, "SCORE  ", { 20, 400 }, TextColor::WHITE, TextColor::BLACK, true, TextAlignHorizontal::LEFT, TextAlignVertical::CENTER);
+
 	// Set level map
 	SetLevelMap();
 
@@ -96,17 +118,17 @@ void GameScreenLevelBase::SetUpSFX()
 
 void GameScreenLevelBase::CreateMario(Vector2D position)
 {
-	m_character_mario = new CharacterMario(m_renderer, position, m_level_map, m_mario_jump_sound);
+	m_character_mario = new PlayerMario(m_renderer, position, m_level_map, m_mario_jump_sound);
 }
 
 void GameScreenLevelBase::CreateLuigi(Vector2D position)
 {
-	m_character_luigi = new CharacterLuigi(m_renderer, position, m_level_map, m_luigi_jump_sound);
+	m_character_luigi = new PlayerLuigi(m_renderer, position, m_level_map, m_luigi_jump_sound);
 }
 
 void GameScreenLevelBase::CreateKoopa(Vector2D position, Facing direction, float speed)
 {
-	CharacterKoopa* enemy = new CharacterKoopa(m_renderer, "Images/Koopa.png", m_stomp_sound, m_level_map, position, direction, speed);
+	EnemyKoopa* enemy = new EnemyKoopa(m_renderer, "Images/Koopa.png", m_stomp_sound, m_level_map, position, direction);
 	m_enemies.push_back(enemy);
 }
 
@@ -161,7 +183,7 @@ void GameScreenLevelBase::UpdateEnemies(float deltaTime, SDL_Event e)
 		int toDelete = -1;
 		for (unsigned int i = 0; i < m_enemies.size(); i++)
 		{
-			CharacterKoopa* current = m_enemies[i];
+			Enemy* current = m_enemies[i];
 
 			Rect2D collisionBox = current->GetCollisionBox();
 			float posX = collisionBox.x;
@@ -192,6 +214,7 @@ void GameScreenLevelBase::UpdateEnemies(float deltaTime, SDL_Event e)
 						// Kill enemy when collided
 						current->SetAlive(false);
 						m_kick_sound->Play();
+						m_session->score += current->GetKillScore();
 					}
 					else
 					{
@@ -223,11 +246,16 @@ void GameScreenLevelBase::UpdateEnemies(float deltaTime, SDL_Event e)
 		// Remove enemy if scheduled (will be last if multiple are dead)
 		if (toDelete >= 0)
 		{
-			CharacterKoopa* temp = m_enemies[toDelete];
+			Enemy* temp = m_enemies[toDelete];
 			m_enemies.erase(m_enemies.begin() + toDelete);
 			delete temp;
 		}
 	}
 }
 
-
+void GameScreenLevelBase::UpdateScoreText()
+{
+	std::stringstream score;
+	score << "SCORE   " << std::setw(8) << std::setfill('0') << m_session->score;
+	m_score_box->SetText(score.str());
+}

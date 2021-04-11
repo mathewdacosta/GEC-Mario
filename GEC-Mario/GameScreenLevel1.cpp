@@ -7,7 +7,8 @@
 #include "PowBlock.h"
 #include "SoundEffect.h"
 
-GameScreenLevel1::GameScreenLevel1(SDL_Renderer* renderer, AudioManager* audio_manager) : GameScreenLevelBase(renderer, audio_manager, "Images/BackgroundMB.png", "Audio/Music/Mario.mp3", "Levels/01.txt")
+GameScreenLevel1::GameScreenLevel1(SDL_Renderer* renderer, AudioManager* audio_manager, GameSession* session) :
+	GameScreenLevelBase(renderer, audio_manager, session, "Images/BackgroundMB.png", "Audio/Music/Mario.mp3", "Levels/01.txt")
 {
 }
 
@@ -22,6 +23,9 @@ bool GameScreenLevel1::SetUpLevel()
 	{
 		return false;
 	}
+
+	// Reset score
+	m_session->score = 0;
 
 	// Set up spawner variables
 	m_enemy_spawn_side = 0;
@@ -59,6 +63,8 @@ void GameScreenLevel1::Render()
 	#ifdef DEBUG_DRAW_TILES
     RenderLevelMapDebugGrid();
 	#endif
+
+	m_score_box->Draw();
 }
 
 void GameScreenLevel1::Update(float deltaTime, SDL_Event e)
@@ -69,6 +75,7 @@ void GameScreenLevel1::Update(float deltaTime, SDL_Event e)
     CheckPOWBlockCollisions(m_character_luigi);
     UpdateEnemies(deltaTime, e);
 	UpdateSpawners(deltaTime);
+	UpdateScoreText();
 
     if (m_screen_shaking)
     {

@@ -5,8 +5,8 @@
 
 #include "TextBox.h"
 
-GameScreenIntro::GameScreenIntro(SDL_Renderer* renderer, AudioManager* audio_manager, GameScreenManager* screen_manager) :
-    GameScreen(renderer, audio_manager),
+GameScreenIntro::GameScreenIntro(SDL_Renderer* renderer, AudioManager* audio_manager, GameScreenManager* screen_manager, GameSession* session) :
+    GameScreen(renderer, audio_manager, session),
     m_screen_manager(screen_manager),
     m_background_texture(nullptr),
     m_hud_font(nullptr),
@@ -77,10 +77,15 @@ void GameScreenIntro::Update(float deltaTime, SDL_Event e)
         {
         case SDL_BUTTON_LEFT:
             if (CheckTextBoxHover(m_text_1p))
-                // TODO: 1 player mode
-                m_screen_manager->QueueScreen(Screen::ERROR);
-            else if (CheckTextBoxHover(m_text_2p))
+            {
+                m_session->players = 1;
                 m_screen_manager->QueueScreen(Screen::LEVEL_1);
+            }
+            else if (CheckTextBoxHover(m_text_2p))
+            {
+                m_session->players = 2;
+                m_screen_manager->QueueScreen(Screen::LEVEL_1);
+            }
             else if (CheckTextBoxHover(m_text_high_scores))
                 m_screen_manager->QueueScreen(Screen::HIGH_SCORES);
             break;

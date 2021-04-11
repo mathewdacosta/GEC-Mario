@@ -26,7 +26,7 @@ private:
     void UpdateSpawners(float deltaTime);
 
 public:
-    GameScreenLevel1(SDL_Renderer* renderer, AudioManager* audio_manager);
+    GameScreenLevel1(SDL_Renderer* renderer, AudioManager* audio_manager, GameSession* session);
     ~GameScreenLevel1() override;
 
     void Render() override;

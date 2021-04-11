@@ -5,7 +5,7 @@
 #ifndef _CHARACTERLUIGI_H
 #define _CHARACTERLUIGI_H
 
-class CharacterLuigi : public Player
+class PlayerLuigi : public Player
 {
 private:
 	const SDL_Keycode GetJumpKey() override;
@@ -13,7 +13,7 @@ private:
 	const SDL_Keycode GetRightKey() override;
 
 public:
-	CharacterLuigi(SDL_Renderer* renderer, Vector2D start_position, LevelMap* map, SoundEffect* jump_sound);
+	PlayerLuigi(SDL_Renderer* renderer, Vector2D start_position, LevelMap* map, SoundEffect* jump_sound);
 };
 
 #endif

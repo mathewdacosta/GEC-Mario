@@ -1,6 +1,21 @@
 #pragma once
 
+#ifndef _COMMON_H
+#define _COMMON_H
+
 #include <SDL_rect.h>
+
+struct GameSession
+{
+	short players;
+	int score;
+
+	GameSession()
+	{
+		players = -1;
+		score = 0;
+	}
+};
 
 struct Vector2D
 {
@@ -60,3 +75,5 @@ enum class Facing
 	LEFT,
 	RIGHT
 };
+
+#endif

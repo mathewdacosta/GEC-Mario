@@ -11,13 +11,13 @@
 
 // #define DEBUG_DRAW_TILES
 // #define DEBUG_DRAW_CHARACTER_BOXES
-// #define DEBUG_DRAW_KOOPA_BASE
+// #define DEBUG_DRAW_ENEMY_BASE
 
 
 
 /* ================ Audio toggles ================= */
 
-#define DEBUG_AUDIO_DISABLE_MUSIC
+// #define DEBUG_AUDIO_DISABLE_MUSIC
 // #define DEBUG_AUDIO_DISABLE_SFX
 
 
@@ -27,7 +27,7 @@
 #ifdef DEBUG_DRAW_ALL_OVERLAYS
 	#define DEBUG_DRAW_TILES
 	#define DEBUG_DRAW_CHARACTER_BOXES
-	#define DEBUG_DRAW_KOOPA_BASE
+	#define DEBUG_DRAW_ENEMY_BASE
 #endif
 
 #ifdef DEBUG_AUDIO_DISABLE_ALL

@@ -2,8 +2,8 @@
 
 #include "Font.h"
 
-GameScreenError::GameScreenError(SDL_Renderer* renderer, AudioManager* audio_manager) :
-    GameScreen(renderer, audio_manager)
+GameScreenError::GameScreenError(SDL_Renderer* renderer, AudioManager* audio_manager, GameSession* session) :
+    GameScreen(renderer, audio_manager, session)
 {
     m_font = nullptr;
     m_line_1 = nullptr;

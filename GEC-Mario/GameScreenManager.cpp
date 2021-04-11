@@ -7,14 +7,14 @@
 #include "GameScreenIntro.h"
 #include "GameScreenLevel1.h"
 
-GameScreenManager::GameScreenManager(SDL_Renderer* renderer, AudioManager* audio_manager, Screen start_screen)
+GameScreenManager::GameScreenManager(SDL_Renderer* renderer, AudioManager* audio_manager, GameSession* session, Screen start_screen) :
+    m_renderer(renderer),
+    m_audio_manager(audio_manager),
+    m_session(session),
+    m_current_screen(nullptr),
+    m_next_screen(start_screen),
+    m_screen_queued(false)
 {
-    m_renderer = renderer;
-    m_audio_manager = audio_manager;
-    m_current_screen = nullptr;
-    m_next_screen = start_screen;
-    m_screen_queued = false;
-
     ChangeScreen(start_screen);
 }
 
@@ -56,14 +56,14 @@ void GameScreenManager::ChangeScreen(Screen new_screen)
     switch (new_screen)
     {
     case Screen::INTRO:
-        m_current_screen = new GameScreenIntro(m_renderer, m_audio_manager, this);
+        m_current_screen = new GameScreenIntro(m_renderer, m_audio_manager, this, m_session);
         break;
     case Screen::LEVEL_1:
-        m_current_screen = new GameScreenLevel1(m_renderer, m_audio_manager);
+        m_current_screen = new GameScreenLevel1(m_renderer, m_audio_manager, m_session);
         break;
     case Screen::ERROR:
     default:
-        m_current_screen = new GameScreenError(m_renderer, m_audio_manager);
+        m_current_screen = new GameScreenError(m_renderer, m_audio_manager, m_session);
         break;
     }
 

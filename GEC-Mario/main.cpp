@@ -16,6 +16,7 @@ SDL_Window* g_window = nullptr;
 SDL_Renderer* g_renderer = nullptr;
 AudioManager* g_audio_manager = nullptr;
 GameScreenManager* g_screen_manager = nullptr;
+GameSession g_session = GameSession();
 
 Uint32 g_old_time;
 
@@ -33,9 +34,9 @@ int main(int argc, char* args[])
 	if (InitSDL())
 	{
 		// Set up screen manager
-		// TODO: start on main menu
-		g_screen_manager = new GameScreenManager(g_renderer, g_audio_manager, Screen::INTRO);
-		// Set time
+		g_screen_manager = new GameScreenManager(g_renderer, g_audio_manager, &g_session, Screen::INTRO);
+
+		// Set time at start of loop
 		g_old_time = SDL_GetTicks();
 		
 		bool quit = false;
@@ -111,12 +112,15 @@ void CloseSDL()
 	// Release game screen manager
 	delete g_screen_manager;
 	g_screen_manager = nullptr;
+	
 	// Release renderer
 	SDL_DestroyRenderer(g_renderer);
 	g_renderer = nullptr;
+	
 	// Release window
 	SDL_DestroyWindow(g_window);
 	g_window = nullptr;
+	
 	// Shut down audio
 	delete g_audio_manager;
 

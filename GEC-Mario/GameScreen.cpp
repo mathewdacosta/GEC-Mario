@@ -2,11 +2,12 @@
 
 #include <iostream>
 
-GameScreen::GameScreen(SDL_Renderer* renderer, AudioManager* audio_manager)
+GameScreen::GameScreen(SDL_Renderer* renderer, AudioManager* audio_manager, GameSession* session) :
+    m_renderer(renderer),
+    m_audio_manager(audio_manager),
+    m_session(session),
+    m_bgm(nullptr)
 {
-    m_renderer = renderer;
-    m_audio_manager = audio_manager;
-    m_bgm = nullptr;
 }
 
 GameScreen::~GameScreen()

@@ -27,7 +27,7 @@ private:
     bool CheckTextBoxHover(TextBox* text_box) const;
 
 public:
-    GameScreenIntro(SDL_Renderer* renderer, AudioManager* audio_manager, GameScreenManager* screen_manager);
+    GameScreenIntro(SDL_Renderer* renderer, AudioManager* audio_manager, GameScreenManager* screen_manager, GameSession* session);
     ~GameScreenIntro();
 
 	bool Setup() override;

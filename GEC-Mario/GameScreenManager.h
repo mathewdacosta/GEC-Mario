@@ -11,12 +11,13 @@ class GameScreenManager
 {
     SDL_Renderer* m_renderer;
     AudioManager* m_audio_manager;
+    GameSession* m_session;
     GameScreen* m_current_screen;
     Screen m_next_screen;
     bool m_screen_queued;
-    
+
 public:
-    GameScreenManager(SDL_Renderer* renderer, AudioManager* audio_manager, Screen start_screen);
+    GameScreenManager(SDL_Renderer* renderer, AudioManager* audio_manager, GameSession* session, Screen start_screen);
     ~GameScreenManager();
 
     void Render();

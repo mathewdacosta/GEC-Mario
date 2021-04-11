@@ -3,11 +3,11 @@
 #include <SDL.h>
 #include <string>
 
-#include "Common.h"
-#include "LevelMap.h"
-
 #ifndef _CHARACTER_H
 #define _CHARACTER_H
+
+#include "Common.h"
+#include "LevelMap.h"
 
 class Texture2D;
 

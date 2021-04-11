@@ -10,7 +10,7 @@ private:
     TextBox* m_line_2;
 
 public:
-    GameScreenError(SDL_Renderer* renderer, AudioManager* audio_manager);
+    GameScreenError(SDL_Renderer* renderer, AudioManager* audio_manager, GameSession* session);
     ~GameScreenError();
 
     bool Setup() override;

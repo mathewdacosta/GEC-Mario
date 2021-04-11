@@ -2,9 +2,10 @@
 
 #include "GameScreen.h"
 #include "LevelMap.h"
-#include "CharacterMario.h"
-#include "CharacterLuigi.h"
-#include "CharacterKoopa.h"
+#include "PlayerMario.h"
+#include "PlayerLuigi.h"
+#include "EnemyKoopa.h"
+#include "TextBox.h"
 
 
 class GameScreenLevelBase : public GameScreen
@@ -17,22 +18,25 @@ protected:
     LevelMap* m_level_map;
     Texture2D* m_background_texture;
 
+	Font* m_hud_font;
+	TextBox* m_score_box;
+
     SoundEffect* m_coin_sound;
     SoundEffect* m_kick_sound;
     SoundEffect* m_mario_jump_sound;
     SoundEffect* m_luigi_jump_sound;
     SoundEffect* m_stomp_sound;
 
-    CharacterMario* m_character_mario;
-    CharacterLuigi* m_character_luigi;
-    std::vector<CharacterKoopa*> m_enemies;
+    PlayerMario* m_character_mario;
+    PlayerLuigi* m_character_luigi;
+    std::vector<Enemy*> m_enemies;
 
     bool m_screen_shaking;
     float m_shake_time;
     float m_wobble;
     float m_background_yPos;
 	
-	GameScreenLevelBase(SDL_Renderer* renderer, AudioManager* audio_manager, std::string bg_image_path, std::string bg_music_path, std::string level_map_path);
+	GameScreenLevelBase(SDL_Renderer* renderer, AudioManager* audio_manager, GameSession* session, std::string bg_image_path, std::string bg_music_path, std::string level_map_path);
     ~GameScreenLevelBase();
 	
     virtual bool SetUpLevel();
@@ -48,6 +52,7 @@ protected:
     void DoScreenShake();
     void RenderLevelMapDebugGrid() const;
     void UpdateEnemies(float deltaTime, SDL_Event e);
+	void UpdateScoreText();
 
 public:
 	bool Setup() override;
