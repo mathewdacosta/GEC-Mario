@@ -21,6 +21,8 @@ private:
     int m_mouse_x;
     int m_mouse_y;
 
+    bool CheckTextBoxHover(TextBox* text_box) const;
+
 public:
     GameScreenIntro(SDL_Renderer* renderer, AudioManager* audio_manager);
     ~GameScreenIntro();

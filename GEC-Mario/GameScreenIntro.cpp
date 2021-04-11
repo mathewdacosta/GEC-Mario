@@ -68,9 +68,23 @@ void GameScreenIntro::Update(float deltaTime, SDL_Event e)
         }
     }
 
-    int x, y = 0;
-    SDL_GetMouseState(&x, &y);
+    SDL_GetMouseState(&m_mouse_x, &m_mouse_y);
+
+    // Cursor position text
     std::stringstream score;
-    score << "MOUSE X \n" << x << " Y " << y;
-    m_text_mouse_pos->SetText(score.str());    
+    score << "MOUSE X " << m_mouse_x << " Y " << m_mouse_y;
+    m_text_mouse_pos->SetText(score.str());
+
+    // if text boxes are hovered over, draw background
+    m_text_1p->SetDrawBg(CheckTextBoxHover(m_text_1p));
+    m_text_2p->SetDrawBg(CheckTextBoxHover(m_text_2p));
+}
+
+
+bool GameScreenIntro::CheckTextBoxHover(TextBox* text_box) const
+{
+    SDL_Rect bounds = text_box->GetBoundingBox();
+
+    return bounds.x < m_mouse_x && bounds.x + bounds.w > m_mouse_x
+        && bounds.y < m_mouse_y && bounds.y + bounds.h > m_mouse_y;
 }

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <SDL_rect.h>
+
 struct Vector2D
 {
 	float x;
@@ -31,6 +33,14 @@ struct Rect2D
 		this->y = y_pos;
 		this->width = width;
 		this->height = height;
+	}
+
+	Rect2D(SDL_Rect& sdl_rect)
+	{
+		this->x = sdl_rect.x;
+		this->y = sdl_rect.y;
+		this->width = sdl_rect.w;
+		this->height = sdl_rect.h;
 	}
 };
 
