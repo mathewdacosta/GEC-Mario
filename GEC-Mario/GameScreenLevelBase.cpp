@@ -177,27 +177,10 @@ void GameScreenLevelBase::UpdateEnemies(float deltaTime, SDL_Event e)
 					// Kill enemy if off screen
 					current->SetAlive(false);
 				}
-
-				// Call enemy update method
-				current->Update(deltaTime, e);
 			}
-			else
-			{
-				// Check if enemy is off either left or right of screen and wrap around
-				if (posX < (float)-(width * 0.5f))
-				{
-					current->SetPosition(Vector2D(SCREEN_WIDTH - (0.5 * width), posY));
-				}
-				else if (posX > SCREEN_WIDTH - (float)(width * 0.5f))
-				{
-					current->SetPosition(Vector2D(0.5 * width, posY));
-				}
-				else
-				{
-					// Call enemy update method
-					current->Update(deltaTime, e);
-				}
-			}
+			
+			// Call enemy update method
+			current->Update(deltaTime, e);
 
 			// Check enemy collisions if enemy is not behind pipe
 			if (!((posY > 300.0f || posY <= 64.0f) && (posX <  64.0f || posX > SCREEN_WIDTH - 96.0f)))

@@ -106,7 +106,6 @@ void CharacterKoopa::ResetFlip()
     Jump();
 }
 
-
 Rect2D CharacterKoopa::GetCollisionBox()
 {
     return Rect2D(m_position.x, m_position.y, m_single_sprite_w, m_single_sprite_h);

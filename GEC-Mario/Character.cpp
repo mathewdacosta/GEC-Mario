@@ -122,10 +122,10 @@ void Character::UpdateMovement(float deltaTime)
     }
 
     Rect2D collisionBox = GetCollisionBox();
-    int posXCenter = (int)(collisionBox.x + (collisionBox.width * 0.5)) / TILE_WIDTH;
-    int posYFoot = (int)(collisionBox.y + collisionBox.height) / TILE_HEIGHT;
+    int tileXCenter = (int)(collisionBox.x + (collisionBox.width * 0.5)) / TILE_WIDTH;
+    int tileYFoot = (int)(collisionBox.y + collisionBox.height) / TILE_HEIGHT;
 
-    if (!m_current_level_map->GetTileAt(posYFoot, posXCenter) == 0)
+    if (!m_current_level_map->GetTileAt(tileYFoot, tileXCenter) == 0)
     {
         // Cancel jump
         CancelJump();
@@ -144,6 +144,16 @@ void Character::UpdateMovement(float deltaTime)
     else if (m_moving_right)
     {
         MoveRight(deltaTime);
+    }
+
+    // Check if off left/right of screen and wrap around
+    if (collisionBox.x < (float)-(collisionBox.width * 0.5f))
+    {
+        SetPosition(Vector2D(SCREEN_WIDTH - (0.5 * collisionBox.width), collisionBox.y));
+    }
+    else if (collisionBox.x > SCREEN_WIDTH - (float)(collisionBox.width * 0.5f))
+    {
+        SetPosition(Vector2D(-0.5f * collisionBox.width, collisionBox.y));
     }
 }
 
