@@ -33,7 +33,7 @@ bool GameScreenLevel1::SetUpLevel()
 void GameScreenLevel1::SetUpEntities()
 {
 	CreateMario(Vector2D(64, 300));
-	CreateLuigi(Vector2D(256, 280));
+	CreateLuigi(Vector2D(448, 300));
 
 	m_pow_block = new PowBlock(m_renderer, m_level_map);
 
