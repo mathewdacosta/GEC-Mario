@@ -3,6 +3,7 @@
 #include "GameScreen.h"
 #include "AudioManager.h"
 #include "Font.h"
+#include "GameScreenManager.h"
 #include "TextBox.h"
 #include "Texture2D.h"
 
@@ -12,10 +13,12 @@
 class GameScreenIntro : public GameScreen
 {
 private:
+    GameScreenManager* m_screen_manager;
     Texture2D* m_background_texture;
     Font* m_hud_font;
     TextBox* m_text_1p;
     TextBox* m_text_2p;
+    TextBox* m_text_high_scores;
     TextBox* m_text_mouse_pos;
     
     int m_mouse_x;
@@ -24,7 +27,7 @@ private:
     bool CheckTextBoxHover(TextBox* text_box) const;
 
 public:
-    GameScreenIntro(SDL_Renderer* renderer, AudioManager* audio_manager);
+    GameScreenIntro(SDL_Renderer* renderer, AudioManager* audio_manager, GameScreenManager* screen_manager);
     ~GameScreenIntro();
 
 	bool Setup() override;

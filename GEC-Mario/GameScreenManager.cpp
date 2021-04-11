@@ -56,7 +56,7 @@ void GameScreenManager::ChangeScreen(Screen new_screen)
     switch (new_screen)
     {
     case Screen::INTRO:
-        m_current_screen = new GameScreenIntro(m_renderer, m_audio_manager);
+        m_current_screen = new GameScreenIntro(m_renderer, m_audio_manager, this);
         break;
     case Screen::LEVEL_1:
         m_current_screen = new GameScreenLevel1(m_renderer, m_audio_manager);
@@ -67,9 +67,7 @@ void GameScreenManager::ChangeScreen(Screen new_screen)
         break;
     }
 
-    bool setupSuccess = m_current_screen->Setup();
-
-	if (!setupSuccess)
+	if (!m_current_screen->Setup())
 	{
         std::cout << "Screen setup failed!" << std::endl;
 	    QueueScreen(Screen::ERROR);
