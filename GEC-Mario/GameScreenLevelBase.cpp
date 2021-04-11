@@ -198,6 +198,19 @@ void GameScreenLevelBase::UpdateEnemies(float deltaTime, SDL_Event e)
 						// TODO: kill mario
 					}
 				}
+				else if (Collisions::Instance()->Circle(current, m_character_luigi))
+				{
+					if (current->IsInjured())
+					{
+						// Kill enemy when collided
+						current->SetAlive(false);
+						m_kick_sound->Play();
+					}
+					else
+					{
+						// TODO: kill luigi
+					}
+				}
 			}
 
 			// Check whether enemy is dead and schedule for deletion
