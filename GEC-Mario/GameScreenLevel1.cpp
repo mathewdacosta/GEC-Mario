@@ -3,7 +3,6 @@
 #include <iostream>
 
 #include "Collisions.h"
-#include "Texture2D.h"
 #include "PowBlock.h"
 #include "SoundEffect.h"
 
@@ -47,24 +46,9 @@ void GameScreenLevel1::SetUpEntities()
 
 void GameScreenLevel1::Render()
 {
-    // Draw background texture
-    m_background_texture->Render(Vector2D(0, m_background_yPos), SDL_FLIP_NONE);
-
-    // Draw characters and POW block
-    m_character_mario->Render();
-    m_character_luigi->Render();
-    m_pow_block->Render();
-
-	for (int i = 0; i < m_enemies.size(); i++)
-	{
-        m_enemies[i]->Render();
-	}
-
-	#ifdef DEBUG_DRAW_TILES
-    RenderLevelMapDebugGrid();
-	#endif
-
-	m_score_box->Draw();
+    GameScreenLevelBase::Render();
+	
+	m_pow_block->Render();
 }
 
 void GameScreenLevel1::Update(float deltaTime, SDL_Event e)
@@ -74,6 +58,7 @@ void GameScreenLevel1::Update(float deltaTime, SDL_Event e)
     CheckPOWBlockCollisions(m_character_mario);
     CheckPOWBlockCollisions(m_character_luigi);
     UpdateEnemies(deltaTime, e);
+	UpdateCoins(deltaTime, e);
 	UpdateSpawners(deltaTime);
 	UpdateScoreText();
 
@@ -91,6 +76,13 @@ void GameScreenLevel1::Update(float deltaTime, SDL_Event e)
             m_background_yPos = 0.0f;
         }
     }
+
+	// TODO: spawn coins from spawners
+	if (e.type == SDL_MOUSEBUTTONDOWN && e.button.button == SDL_BUTTON_LEFT)
+	{
+		std::cout << "BLAH " << e.button.x << " , " << e.button.y << std::endl; 
+		CreateCoin({ (float) e.button.x, (float) e.button.y }, { 200.0f, 240.0f });
+	}
 }
 
 void GameScreenLevel1::CheckPOWBlockCollisions(Character* character)

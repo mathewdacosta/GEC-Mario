@@ -73,6 +73,30 @@ bool GameScreenLevelBase::Setup()
 	return this->SetUpLevel();
 }
 
+void GameScreenLevelBase::Render()
+{
+	// Draw background texture
+	m_background_texture->Render(Vector2D(0, m_background_yPos), SDL_FLIP_NONE);
+
+	// Draw characters
+	m_character_mario->Render();
+	m_character_luigi->Render();
+
+	// Draw enemies
+	for (int i = 0; i < m_enemies.size(); i++)
+		m_enemies[i]->Render();
+
+	// Draw coins
+	for (int i = 0; i < m_coins.size(); i++)
+		m_coins[i]->Render();
+
+#ifdef DEBUG_DRAW_TILES
+	RenderLevelMapDebugGrid();
+#endif
+
+	m_score_box->Draw();
+}
+
 bool GameScreenLevelBase::SetUpLevel()
 {
 	// Load background texture
@@ -147,6 +171,12 @@ void GameScreenLevelBase::CreateKoopa(Vector2D position, Facing direction, float
 {
 	EnemyKoopa* enemy = new EnemyKoopa(m_renderer, "Images/Koopa.png", m_stomp_sound, m_level_map, position, direction);
 	m_enemies.push_back(enemy);
+}
+
+void GameScreenLevelBase::CreateCoin(Vector2D position, Vector2D force)
+{
+	Coin* coin = new Coin(m_renderer, position, force, m_level_map);
+	m_coins.push_back(coin);
 }
 
 void GameScreenLevelBase::DoScreenShake()
@@ -241,6 +271,18 @@ void GameScreenLevelBase::UpdateEnemies(float deltaTime, SDL_Event e)
 			Enemy* temp = m_enemies[toDelete];
 			m_enemies.erase(m_enemies.begin() + toDelete);
 			delete temp;
+		}
+	}
+}
+
+void GameScreenLevelBase::UpdateCoins(float deltaTime, SDL_Event e)
+{
+	for (int i = 0; i < m_coins.size(); i++)
+	{
+		m_coins[i]->Update(deltaTime, e);
+		if (Collisions::Instance()->Circle(m_coins[i], m_character_mario))
+		{
+			m_coin_sound->Play();
 		}
 	}
 }

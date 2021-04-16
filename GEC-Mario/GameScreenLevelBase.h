@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Coin.h"
 #include "GameScreen.h"
 #include "LevelMap.h"
 #include "PlayerMario.h"
@@ -33,6 +34,7 @@ protected:
     PlayerMario* m_character_mario;
     PlayerLuigi* m_character_luigi;
     std::vector<Enemy*> m_enemies;
+	std::vector<Coin*> m_coins;
 
     bool m_screen_shaking;
     float m_shake_time;
@@ -51,13 +53,16 @@ protected:
     void CreateMario(Vector2D position);
     void CreateLuigi(Vector2D position);
     void CreateKoopa(Vector2D position, Facing direction, float speed);
+	void CreateCoin(Vector2D position, Vector2D force);
 	
     void DoScreenShake();
     void RenderLevelMapDebugGrid() const;
     void UpdateEnemies(float deltaTime, SDL_Event e);
+	void UpdateCoins(float deltaTime, SDL_Event e);
 	void UpdateScoreText();
 
 public:
 	bool Setup() override;
+	void Render() override;
 };
 

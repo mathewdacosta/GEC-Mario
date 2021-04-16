@@ -19,7 +19,7 @@ Character::Character(SDL_Renderer* renderer, std::string image_path, int width, 
     m_moving_right(false),
     m_jump_ascending(false),
     m_remaining_jumps(max_jumps),
-    m_velocity_y(0.0f),
+    m_velocity({ 0.0f, 0.0f }),
     m_alive(true)
 {
     m_sprite = new AnimatedSprite(renderer, image_path, width, height);
@@ -33,7 +33,7 @@ Character::~Character()
 
 void Character::Jump()
 {
-    m_velocity_y = m_jump_force;
+    m_velocity.y = m_jump_force;
     m_jump_ascending = true;
     m_remaining_jumps -= 1;
 }
@@ -51,9 +51,19 @@ void Character::MoveRight(float deltaTime)
 }
 
 
-void Character::AddGravity(float deltaTime)
+void Character::ApplyResistance(float deltaTime)
 {
-    m_velocity_y -= deltaTime * GRAVITY;
+    const float deltaResistanceX = (RESISTANCE * deltaTime);
+    if (m_velocity.x < 0)
+    {
+        m_velocity.x = std::min(0.0f, m_velocity.x + deltaResistanceX);
+    }
+    else if (m_velocity.x > 0)
+    {
+        m_velocity.x = std::max(0.0f, m_velocity.x - deltaResistanceX);
+    }
+    
+    m_velocity.y -= deltaTime * GRAVITY;
 }
 
 bool Character::CanJump()
@@ -72,7 +82,7 @@ void Character::CancelJump(bool force)
     if (force || !m_jump_ascending)
     {
         m_remaining_jumps = m_max_jumps;
-        m_velocity_y = 0.0f;
+        m_velocity.y = 0.0f;
     }
 }
 
@@ -107,12 +117,13 @@ void Character::HandleInput(float deltaTime, SDL_Event e)
 
 void Character::UpdateMovement(float deltaTime)
 {
-    // Adjust position for jump/fall
-    m_position.y -= m_velocity_y * deltaTime;
+    // Adjust position according to velocity
+    m_position.x += m_velocity.x * deltaTime;
+    m_position.y -= m_velocity.y * deltaTime;
 
     // Apply gravity
-    AddGravity(deltaTime);
-    if (m_velocity_y <= 0)
+    ApplyResistance(deltaTime);
+    if (m_velocity.y <= 0)
     {
         m_jump_ascending = false;
     }
@@ -129,7 +140,7 @@ void Character::UpdateMovement(float deltaTime)
         // If we're still ascending during a jump, don't reset velocity
         if (!m_jump_ascending)
         {
-            m_velocity_y = 0.0f;
+            m_velocity.y = 0.0f;
         }
     }
 

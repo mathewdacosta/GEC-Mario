@@ -32,14 +32,14 @@ protected:
     bool m_jump_ascending;
     short m_remaining_jumps;
     
-    float m_velocity_y;
+    Vector2D m_velocity;
     bool m_alive;
 
     virtual void Jump();
     virtual void MoveLeft(float deltaTime);
     virtual void MoveRight(float deltaTime);
     
-    void AddGravity(float deltaTime);
+    void ApplyResistance(float deltaTime);
     bool CanJump();
 
 public:

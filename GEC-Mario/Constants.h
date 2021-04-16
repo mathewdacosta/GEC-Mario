@@ -15,6 +15,7 @@ const int MIXER_CHANNELS = 16;
 
 // Physics
 const float GRAVITY = 1130.0f;
+const float RESISTANCE = 100.0f;
 
 // Player parameters
 const float MARIO_WIDTH = 32;
@@ -34,6 +35,10 @@ const float KOOPA_INJURY_TIME = 3.8f;
 const float KOOPA_INITIAL_JUMP_FORCE = 280.0f;
 const float KOOPA_SPEED = 96.0f;
 const int KOOPA_KILL_SCORE = 200;
+
+// Misc object parameters
+const int COIN_WIDTH = 16;
+const int COIN_HEIGHT = 22;
 
 // Map properties
 const int TILE_HEIGHT = 32;
