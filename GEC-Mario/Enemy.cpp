@@ -2,8 +2,8 @@
 #include "Texture2D.h"
 
 
-Enemy::Enemy(SDL_Renderer* renderer, std::string image_path, Vector2D start_position, float movement_speed, float jump_force, short max_jumps, float collision_radius, LevelMap* map, SoundEffect* stomp_sound, Facing start_facing):
-    Character(renderer, image_path, start_position, movement_speed, jump_force, max_jumps, collision_radius, map),
+Enemy::Enemy(SDL_Renderer* renderer, std::string image_path, int width, int height, Vector2D start_position, float movement_speed, float jump_force, short max_jumps, float collision_radius, LevelMap* map, SoundEffect* stomp_sound, Facing start_facing):
+    Character(renderer, image_path, width, height, start_position, movement_speed, jump_force, max_jumps, collision_radius, map),
     m_injured(false),
     m_injured_time(0.0f),
     m_stomp_sound(stomp_sound)
@@ -54,9 +54,4 @@ void Enemy::ResetFlip()
 
     m_injured = false;
     Jump();
-}
-
-Rect2D Enemy::GetCollisionBox()
-{
-    return Rect2D(m_position.x, m_position.y, GetWidth(), GetHeight());
 }

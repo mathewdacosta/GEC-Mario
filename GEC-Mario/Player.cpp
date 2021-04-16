@@ -1,9 +1,9 @@
 ﻿#include "Player.h"
 
-Player::Player(SDL_Renderer* renderer, const std::string& image_path, const Vector2D& start_position,
-    float movement_speed, float jump_force, short max_jumps, float collision_radius, LevelMap* map,
-    SoundEffect* jump_sound) :
-        Character(renderer, image_path, start_position, movement_speed, jump_force, max_jumps, collision_radius, map),
+Player::Player(SDL_Renderer* renderer, const std::string& image_path, int width, int height,
+    const Vector2D& start_position, float movement_speed, float jump_force, short max_jumps, float collision_radius,
+    LevelMap* map, SoundEffect* jump_sound) :
+        Character(renderer, image_path, width, height, start_position, movement_speed, jump_force, max_jumps, collision_radius, map),
 		m_jump_held(false),
 		m_jump_sound(jump_sound)
 {

@@ -15,7 +15,7 @@ protected:
     virtual const SDL_Keycode GetJumpKey() = 0;
 
 public:
-    Player(SDL_Renderer* renderer, const std::string& image_path, const Vector2D& start_position,
+    Player(SDL_Renderer* renderer, const std::string& image_path, int width, int height, const Vector2D& start_position,
         float movement_speed, float jump_force, short max_jumps, float collision_radius, LevelMap* map,
         SoundEffect* jump_sound);
 

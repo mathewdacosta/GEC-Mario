@@ -3,6 +3,8 @@
 #include <SDL.h>
 #include <string>
 
+#include "AnimatedSprite.h"
+
 #ifndef _CHARACTER_H
 #define _CHARACTER_H
 
@@ -16,7 +18,7 @@ class Character
 protected:
     SDL_Renderer* m_renderer;
     Vector2D m_position;
-    Texture2D* m_texture;
+    AnimatedSprite* m_sprite;
     LevelMap* m_current_level_map;
 
     const float m_movement_speed;
@@ -41,14 +43,15 @@ protected:
     bool CanJump();
 
 public:
-    Character(SDL_Renderer* renderer, std::string image_path, Vector2D start_position, float movement_speed, float jump_force, short max_jumps, float collision_radius, LevelMap* map);
+    Character(SDL_Renderer* renderer, std::string image_path, int width, int height, Vector2D start_position, float movement_speed, float jump_force, short max_jumps, float collision_radius, LevelMap* map);
     virtual ~Character();
 
     virtual void Render();
     virtual void Update(float deltaTime, SDL_Event e);
 
-    void UpdateMovement(float deltaTime);
     virtual void HandleInput(float deltaTime, SDL_Event e);
+    void UpdateMovement(float deltaTime);
+    void UpdateSprite(float deltaTime);
 
     void SetPosition(Vector2D new_position);
     Vector2D GetPosition();

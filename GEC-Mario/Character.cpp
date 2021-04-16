@@ -1,11 +1,12 @@
 ﻿#include "Character.h"
 #include <iostream>
 
+
+#include "AnimatedSprite.h"
 #include "constants.h"
 #include "Texture2D.h"
 
-Character::Character(SDL_Renderer* renderer, std::string image_path, Vector2D start_position, float movement_speed,
-                     float jump_force, short max_jumps, float collision_radius, LevelMap* map) :
+Character::Character(SDL_Renderer* renderer, std::string image_path, int width, int height, Vector2D start_position, float movement_speed, float jump_force, short max_jumps, float collision_radius, LevelMap* map) :
     m_renderer(renderer),
     m_position(start_position),
     m_current_level_map(map),
@@ -21,17 +22,13 @@ Character::Character(SDL_Renderer* renderer, std::string image_path, Vector2D st
     m_velocity_y(0.0f),
     m_alive(true)
 {
-    m_texture = new Texture2D(m_renderer);
-    if (!m_texture->LoadFromFile(image_path))
-    {
-        std::cout << "Failed to load texture " << image_path << std::endl;
-    }
+    m_sprite = new AnimatedSprite(renderer, image_path, width, height);
 }
 
 Character::~Character()
 {
     m_renderer = nullptr;
-    delete m_texture;
+    delete m_sprite;
 }
 
 void Character::Jump()
@@ -81,13 +78,7 @@ void Character::CancelJump(bool force)
 
 void Character::Render()
 {
-    SDL_RendererFlip flip;
-    if (m_facing_direction == Facing::LEFT)
-        flip = SDL_FLIP_HORIZONTAL;
-    else
-        flip = SDL_FLIP_NONE;
-
-    m_texture->Render(m_position, flip);
+    m_sprite->Draw(m_position);
 
 #ifdef DEBUG_DRAW_CHARACTER_BOXES
     SDL_SetRenderDrawColor(m_renderer, 127, 0, 127, 255);
@@ -107,6 +98,11 @@ void Character::Update(float deltaTime, SDL_Event e)
 {
     HandleInput(deltaTime, e);
     UpdateMovement(deltaTime);
+    UpdateSprite(deltaTime);
+}
+
+void Character::HandleInput(float deltaTime, SDL_Event e)
+{
 }
 
 void Character::UpdateMovement(float deltaTime)
@@ -157,8 +153,14 @@ void Character::UpdateMovement(float deltaTime)
     }
 }
 
-void Character::HandleInput(float deltaTime, SDL_Event e)
+void Character::UpdateSprite(float deltaTime)
 {
+    m_sprite->UpdateAnimation(deltaTime);
+    
+    if (m_facing_direction == Facing::LEFT)
+        m_sprite->SetFlip(SDL_FLIP_HORIZONTAL);
+    else
+        m_sprite->SetFlip(SDL_FLIP_NONE);
 }
 
 void Character::SetPosition(Vector2D new_position)
@@ -178,5 +180,5 @@ float Character::GetCollisionRadius()
 
 Rect2D Character::GetCollisionBox()
 {
-    return Rect2D(m_position.x, m_position.y, m_texture->GetWidth(), m_texture->GetHeight());
+    return Rect2D(m_position.x, m_position.y, m_sprite->GetSingleFrameWidth(), m_sprite->GetSingleFrameHeight());
 }

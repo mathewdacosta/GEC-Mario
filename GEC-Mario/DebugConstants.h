@@ -2,7 +2,7 @@
 
 /* ================ Group toggles ================= */
 
-// #define DEBUG_DRAW_ALL_OVERLAYS
+#define DEBUG_DRAW_ALL_OVERLAYS
 // #define DEBUG_AUDIO_DISABLE_ALL
 
 
@@ -17,7 +17,7 @@
 
 /* ================ Audio toggles ================= */
 
-// #define DEBUG_AUDIO_DISABLE_MUSIC
+#define DEBUG_AUDIO_DISABLE_MUSIC
 // #define DEBUG_AUDIO_DISABLE_SFX
 
 

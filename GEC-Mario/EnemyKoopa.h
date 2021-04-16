@@ -10,19 +10,18 @@
 
 class EnemyKoopa : public Enemy
 {
-private:
-    float m_single_sprite_w;
-    float m_single_sprite_h;
-
-    float GetWidth() override { return m_single_sprite_w; }
-    float GetHeight() override { return m_single_sprite_h; }
+protected:
+    void ResetFlip() override;
 
 public:
     EnemyKoopa(SDL_Renderer* renderer, std::string imagePath, SoundEffect* stomp_sound, LevelMap* map, Vector2D start_position, Facing start_facing);
     ~EnemyKoopa();
 
+    void Update(float deltaTime, SDL_Event e) override;
     void Render() override;
+    
     void DoAIMove() override;
+    void TakeDamage() override;
 
     int GetKillScore() override;
 };
