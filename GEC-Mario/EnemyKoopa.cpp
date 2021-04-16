@@ -7,6 +7,7 @@
 EnemyKoopa::EnemyKoopa(SDL_Renderer* renderer, std::string imagePath, SoundEffect* stomp_sound, LevelMap* map, Vector2D start_position, Facing start_facing) :
     Enemy(renderer, imagePath, KOOPA_WIDTH, KOOPA_HEIGHT, start_position, KOOPA_SPEED, KOOPA_INITIAL_JUMP_FORCE, 1, 16.0f, map, stomp_sound, start_facing)
 {
+    m_sprite->SetAnimation(32, 0, 0.15f, 4);
 }
 
 EnemyKoopa::~EnemyKoopa()

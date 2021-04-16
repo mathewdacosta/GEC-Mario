@@ -30,7 +30,7 @@ const float LUIGI_MOVE_SPEED = 152.0f;
 
 // Enemy parameters
 const int KOOPA_WIDTH = 32;
-const int KOOPA_HEIGHT = 30;
+const int KOOPA_HEIGHT = 32;
 const float KOOPA_INJURY_TIME = 3.8f;
 const float KOOPA_INITIAL_JUMP_FORCE = 280.0f;
 const float KOOPA_SPEED = 96.0f;

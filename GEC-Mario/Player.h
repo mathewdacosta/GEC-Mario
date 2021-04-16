@@ -2,10 +2,21 @@
 #include "Character.h"
 #include "SoundEffect.h"
 
+enum class PlayerAnimationState
+{
+    STATIONARY,
+    WALKING,
+    JUMPING,
+    DYING
+};
+
 class Player : public Character
 {
 private:
     SoundEffect* m_jump_sound;
+    PlayerAnimationState m_current_animation_state;
+
+    void SetAnimationState(PlayerAnimationState state);
 
 protected:
     bool m_jump_held;
@@ -20,5 +31,7 @@ public:
         SoundEffect* jump_sound);
 
     void HandleInput(float deltaTime, SDL_Event e) override;
+
+    void Update(float deltaTime, SDL_Event e) override;
 	void Jump() override;
 };

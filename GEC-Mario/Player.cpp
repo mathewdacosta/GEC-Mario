@@ -1,12 +1,33 @@
 ﻿#include "Player.h"
 
 Player::Player(SDL_Renderer* renderer, const std::string& image_path, int width, int height,
-    const Vector2D& start_position, float movement_speed, float jump_force, short max_jumps, float collision_radius,
-    LevelMap* map, SoundEffect* jump_sound) :
+               const Vector2D& start_position, float movement_speed, float jump_force, short max_jumps, float collision_radius,
+               LevelMap* map, SoundEffect* jump_sound) :
         Character(renderer, image_path, width, height, start_position, movement_speed, jump_force, max_jumps, collision_radius, map),
 		m_jump_held(false),
 		m_jump_sound(jump_sound)
 {
+}
+
+void Player::SetAnimationState(PlayerAnimationState state)
+{
+    if (state != m_current_animation_state)
+    {
+        m_current_animation_state = state;
+        switch (state)
+        {
+        case PlayerAnimationState::JUMPING:
+            m_sprite->SetAnimation(0, 42, 1.0f, 1);
+            break;
+        case PlayerAnimationState::WALKING:
+            m_sprite->SetAnimation(0, 0, 0.08f, 4);
+            break;
+        case PlayerAnimationState::STATIONARY:
+        default:
+            m_sprite->SetAnimation(0, 0, 1.0f, 1);
+            break;
+        }
+    }
 }
 
 void Player::HandleInput(float deltaTime, SDL_Event e)
@@ -46,6 +67,18 @@ void Player::HandleInput(float deltaTime, SDL_Event e)
         }
         break;
     }
+}
+
+void Player::Update(float deltaTime, SDL_Event e)
+{
+    Character::Update(deltaTime, e);
+
+    if (m_velocity.y > 0)
+        SetAnimationState(PlayerAnimationState::JUMPING);
+    else if (m_moving_left || m_moving_right)
+        SetAnimationState(PlayerAnimationState::WALKING);
+    else
+        SetAnimationState(PlayerAnimationState::STATIONARY);
 }
 
 void Player::Jump()
