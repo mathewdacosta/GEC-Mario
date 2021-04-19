@@ -6,6 +6,7 @@
 #include "GameScreenError.h"
 #include "GameScreenIntro.h"
 #include "GameScreenLevel1.h"
+#include "GameScreenLevel2.h"
 
 GameScreenManager::GameScreenManager(SDL_Renderer* renderer, AudioManager* audio_manager, GameSession* session, Screen start_screen) :
     m_renderer(renderer),
@@ -60,6 +61,9 @@ void GameScreenManager::ChangeScreen(Screen new_screen)
         break;
     case Screen::LEVEL_1:
         m_current_screen = new GameScreenLevel1(m_renderer, m_audio_manager, m_session);
+        break;
+    case Screen::LEVEL_2:
+        m_current_screen = new GameScreenLevel2(m_renderer, m_audio_manager, m_session);
         break;
     case Screen::ERROR:
     default:

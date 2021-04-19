@@ -10,7 +10,6 @@ GameScreenIntro::GameScreenIntro(SDL_Renderer* renderer, AudioManager* audio_man
     m_screen_manager(screen_manager),
     m_background_texture(nullptr),
     m_hud_font(nullptr),
-    m_text_1p(nullptr),
     m_text_2p(nullptr),
     m_text_high_scores(nullptr),
     m_text_mouse_pos(nullptr),
@@ -48,8 +47,7 @@ bool GameScreenIntro::Setup()
         return false;
     }
 
-    m_text_1p = new TextBox(m_hud_font, "ONE PLAYER", { 256, 300 }, TextColor::WHITE, TextColor::BLACK, false, TextAlignHorizontal::CENTER);
-    m_text_2p = new TextBox(m_hud_font, "TWO PLAYERS", { 256, 330 }, TextColor::WHITE, TextColor::BLACK, false, TextAlignHorizontal::CENTER);
+    m_text_2p = new TextBox(m_hud_font, "START (2p)", { 256, 330 }, TextColor::WHITE, TextColor::BLACK, false, TextAlignHorizontal::CENTER);
     m_text_high_scores = new TextBox(m_hud_font, "HIGH SCORES", { 256, 360 }, TextColor::WHITE, TextColor::BLACK, false, TextAlignHorizontal::CENTER);
     m_text_mouse_pos = new TextBox(m_hud_font, "MOUSE", { 500, 410 }, TextColor::WHITE, TextColor::BLACK, false, TextAlignHorizontal::RIGHT, TextAlignVertical::BOTTOM);
     
@@ -62,7 +60,6 @@ void GameScreenIntro::Render()
     m_background_texture->Render(Vector2D(), SDL_FLIP_NONE);
 
     // Draw text
-    m_text_1p->Draw();
     m_text_2p->Draw();
     m_text_high_scores->Draw();
     m_text_mouse_pos->Draw();
@@ -76,12 +73,7 @@ void GameScreenIntro::Update(float deltaTime, SDL_Event e)
         switch (e.button.button)
         {
         case SDL_BUTTON_LEFT:
-            if (CheckTextBoxHover(m_text_1p))
-            {
-                m_session->players = 1;
-                m_screen_manager->QueueScreen(Screen::LEVEL_1);
-            }
-            else if (CheckTextBoxHover(m_text_2p))
+            if (CheckTextBoxHover(m_text_2p))
             {
                 m_session->players = 2;
                 m_screen_manager->QueueScreen(Screen::LEVEL_1);
@@ -100,7 +92,6 @@ void GameScreenIntro::Update(float deltaTime, SDL_Event e)
     m_text_mouse_pos->SetText(score.str());
 
     // if text boxes are hovered over, draw background
-    m_text_1p->SetDrawBg(CheckTextBoxHover(m_text_1p));
     m_text_2p->SetDrawBg(CheckTextBoxHover(m_text_2p));
     m_text_high_scores->SetDrawBg(CheckTextBoxHover(m_text_high_scores));
 }

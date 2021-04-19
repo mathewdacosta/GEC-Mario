@@ -16,7 +16,6 @@ private:
     GameScreenManager* m_screen_manager;
     Texture2D* m_background_texture;
     Font* m_hud_font;
-    TextBox* m_text_1p;
     TextBox* m_text_2p;
     TextBox* m_text_high_scores;
     TextBox* m_text_mouse_pos;

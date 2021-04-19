@@ -152,6 +152,9 @@ bool Update()
 		case SDLK_n:
 			g_screen_manager->ChangeScreen(Screen::LEVEL_1);
 			break;
+		case SDLK_b:
+			g_screen_manager->ChangeScreen(Screen::LEVEL_2);
+			break;
 		}
 	}
 
