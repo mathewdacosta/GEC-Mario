@@ -17,11 +17,6 @@ EnemyKoopa::~EnemyKoopa()
 void EnemyKoopa::Update(float deltaTime, SDL_Event e)
 {
     Enemy::Update(deltaTime, e);
-    
-    if (m_facing_direction == Facing::RIGHT)
-        m_sprite->SetFlip(SDL_FLIP_NONE);
-    else
-        m_sprite->SetFlip(SDL_FLIP_HORIZONTAL);
 }
 
 
@@ -64,7 +59,7 @@ void EnemyKoopa::DoAIMove()
 void EnemyKoopa::TakeDamage()
 {
     Enemy::TakeDamage();
-    m_sprite->SetAnimation(32, 0, 1.0f, 1);
+    m_sprite->SetAnimation(0, 32, 1.0f, 1);
 }
 
 int EnemyKoopa::GetKillScore()
