@@ -4,15 +4,19 @@
 #include <iomanip>
 #include <sstream>
 
+
+#include "AnimatedSprite.h"
 #include "Collisions.h"
 #include "Font.h"
 #include "Texture2D.h"
 #include "SoundEffect.h"
 #include "TextBox.h"
 
-GameScreenLevelBase::GameScreenLevelBase(SDL_Renderer* renderer, AudioManager* audio_manager, GameSession* session, std::string bg_image_path, std::string bg_music_path, std::string level_map_path) :
+GameScreenLevelBase::GameScreenLevelBase(SDL_Renderer* renderer, AudioManager* audio_manager, GameSession* session, std::string bg_image_path, std::string fg_image_path, std::string tile_image_path, std::string bg_music_path, std::string level_map_path) :
 	GameScreen(renderer, audio_manager, session),
 	m_bg_image_path(bg_image_path),
+	m_fg_image_path(fg_image_path),
+	m_tile_image_path(tile_image_path),
 	m_bg_music_path(bg_music_path),
 	m_level_map_path(level_map_path),
 	m_screen_shaking(false),
@@ -23,7 +27,7 @@ GameScreenLevelBase::GameScreenLevelBase(SDL_Renderer* renderer, AudioManager* a
 	m_screen_shaking = false;
 	m_shake_time = SCREEN_SHAKE_DURATION;
 	m_wobble = 0.0f;
-	m_background_yPos = 0.0f;
+	m_background_y_pos = 0.0f;
 
 	// Initialise level map to nullptr
 	m_level_map = nullptr;
@@ -32,6 +36,9 @@ GameScreenLevelBase::GameScreenLevelBase(SDL_Renderer* renderer, AudioManager* a
 GameScreenLevelBase::~GameScreenLevelBase()
 {
 	delete m_background_texture;
+	delete m_overlay_texture;
+	delete m_tiles_spritesheet;
+	delete m_floor_tile;
 	delete m_hud_font;
 	delete m_score_box;
 	delete m_character_mario;
@@ -76,7 +83,10 @@ bool GameScreenLevelBase::Setup()
 void GameScreenLevelBase::Render()
 {
 	// Draw background texture
-	m_background_texture->Render(Vector2D(0, m_background_yPos), SDL_FLIP_NONE);
+	m_background_texture->Render({ 0, m_background_y_pos }, SDL_FLIP_NONE);
+
+	// Draw level map tiles
+	RenderLevelMapTiles();
 
 	// Draw characters
 	m_character_mario->Render();
@@ -90,22 +100,37 @@ void GameScreenLevelBase::Render()
 	for (int i = 0; i < m_coins.size(); i++)
 		m_coins[i]->Render();
 
-#ifdef DEBUG_DRAW_TILES
-	RenderLevelMapDebugGrid();
-#endif
+	// Draw overlay
+	m_overlay_texture->Render({ 0, m_background_y_pos }, SDL_FLIP_NONE);
 
 	m_score_box->Draw();
 }
 
 bool GameScreenLevelBase::SetUpLevel()
 {
-	// Load background texture
+	// Load background and foreground textures
 	m_background_texture = new Texture2D(m_renderer);
 	if (!m_background_texture->LoadFromFile(m_bg_image_path))
 	{
 		std::cout << "Failed to load background texture!" << std::endl;
 		return false;
 	}
+
+	m_overlay_texture = new Texture2D(m_renderer);
+	if (!m_overlay_texture->LoadFromFile(m_fg_image_path))
+	{
+		std::cout << "Failed to load overlay texture!" << std::endl;
+		return false;
+	}
+
+	m_tiles_spritesheet = new Texture2D(m_renderer);
+	if (!m_tiles_spritesheet->LoadFromFile(m_tile_image_path))
+	{
+		std::cout << "Failed to load tile spritesheet texture!" << std::endl;
+		return false;
+	}
+
+	m_floor_tile = new AnimatedSprite(m_renderer, m_tiles_spritesheet, TILE_WIDTH, TILE_HEIGHT);
 
 	if (!SetBGM(m_bg_music_path))
 	{
@@ -192,32 +217,38 @@ void GameScreenLevelBase::DoScreenShake()
 	}
 }
 
-void GameScreenLevelBase::RenderLevelMapDebugGrid() const
+void GameScreenLevelBase::RenderLevelMapTiles() const
 {
 	for (int i = 0; i < MAP_WIDTH; i++)
 	{
 		for (int j = 0; j < MAP_HEIGHT; j++)
 		{
+			Vector2D tilePos = { (float) i * TILE_WIDTH, (float) j * TILE_HEIGHT };
+			
 			switch (m_level_map->GetTileAt(j, i))
 			{
 			case 0:
 				SDL_SetRenderDrawColor(m_renderer, 0, 0, 255, 255);
 				break;
 			case 1:
+				m_floor_tile->Draw(tilePos);
 				SDL_SetRenderDrawColor(m_renderer, 0, 255, 0, 255);
 				break;
 			default:
 				SDL_SetRenderDrawColor(m_renderer, 255, 0, 0, 255);
 				break;
 			}
+			
+#ifdef DEBUG_DRAW_TILES
 			SDL_Rect current_rect = {
 				i * TILE_WIDTH,
-				j * TILE_HEIGHT,
-				TILE_WIDTH,
-				TILE_HEIGHT
-			};
-
+                j * TILE_HEIGHT,
+                TILE_WIDTH,
+                TILE_HEIGHT
+            };
+			
 			SDL_RenderDrawRect(m_renderer, &current_rect);
+#endif
 		}
 	}
 }

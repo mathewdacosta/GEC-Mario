@@ -224,11 +224,15 @@
     <Content Include="Images\Coin.png" />
     <Content Include="Images\Goomba.png" />
     <Content Include="Images\Koopa.png" />
+    <Content Include="Images\Level1_BG.png" />
+    <Content Include="Images\Level1_Overlay.png" />
     <Content Include="Images\Luigi.png" />
     <Content Include="Images\Mario.png" />
     <Content Include="Images\PowBlock.png" />
     <Content Include="Images\test-2.bmp" />
     <Content Include="Images\test.bmp" />
+    <Content Include="Images\Level1_Tiles.png" />
+    <Content Include="Levels\01.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

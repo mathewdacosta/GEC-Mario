@@ -7,6 +7,7 @@ class AnimatedSprite
 private:
     SDL_Renderer* m_renderer;
     Texture2D* m_spritesheet;
+    const bool m_own_spritesheet;
     
     int m_single_frame_width;
     int m_single_frame_height;
@@ -21,6 +22,7 @@ private:
     
 public:
     AnimatedSprite(SDL_Renderer* renderer, std::string spritesheet_path, int width, int height);
+    AnimatedSprite(SDL_Renderer* renderer, Texture2D* spritesheet, int width, int height);
     ~AnimatedSprite();
     
     SDL_RendererFlip GetFlip() { return m_flip; }

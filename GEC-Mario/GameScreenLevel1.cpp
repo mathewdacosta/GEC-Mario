@@ -7,7 +7,7 @@
 #include "SoundEffect.h"
 
 GameScreenLevel1::GameScreenLevel1(SDL_Renderer* renderer, AudioManager* audio_manager, GameSession* session) :
-	GameScreenLevelBase(renderer, audio_manager, session, "Images/BackgroundMB.png", "Audio/Music/Mario.mp3", "Levels/01.txt")
+	GameScreenLevelBase(renderer, audio_manager, session, "Images/Level1_BG.png", "Images/Level1_Overlay.png", "Images/Level1_Tiles.png", "Audio/Music/Mario.mp3", "Levels/01.txt")
 {
 }
 
@@ -36,7 +36,7 @@ bool GameScreenLevel1::SetUpLevel()
 void GameScreenLevel1::SetUpEntities()
 {
 	CreateMario(Vector2D(64, 300));
-	CreateLuigi(Vector2D(448, 300));
+	CreateLuigi(Vector2D(416, 300));
 
 	m_pow_block = new PowBlock(m_renderer, m_level_map);
 
@@ -66,14 +66,14 @@ void GameScreenLevel1::Update(float deltaTime, SDL_Event e)
     {
         m_shake_time -= deltaTime;
         m_wobble++;
-        m_background_yPos = sin(m_wobble);
-        m_background_yPos *= 3.0f;
+        m_background_y_pos = sin(m_wobble);
+        m_background_y_pos *= 3.0f;
 
         if (m_shake_time <= 0.0f)
         {
             m_screen_shaking = false;
             m_shake_time = 0.0f;
-            m_background_yPos = 0.0f;
+            m_background_y_pos = 0.0f;
         }
     }
 

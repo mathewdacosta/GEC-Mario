@@ -16,11 +16,16 @@ private:
 
 protected:
     const std::string m_bg_image_path;
+    const std::string m_fg_image_path;
+	const std::string m_tile_image_path;
     const std::string m_bg_music_path;
     const std::string m_level_map_path;
 
     LevelMap* m_level_map;
     Texture2D* m_background_texture;
+	Texture2D* m_overlay_texture;
+	Texture2D* m_tiles_spritesheet;
+	AnimatedSprite* m_floor_tile;
 
 	Font* m_hud_font;
 	TextBox* m_score_box;
@@ -39,9 +44,9 @@ protected:
     bool m_screen_shaking;
     float m_shake_time;
     float m_wobble;
-    float m_background_yPos;
+    float m_background_y_pos;
 	
-	GameScreenLevelBase(SDL_Renderer* renderer, AudioManager* audio_manager, GameSession* session, std::string bg_image_path, std::string bg_music_path, std::string level_map_path);
+	GameScreenLevelBase(SDL_Renderer* renderer, AudioManager* audio_manager, GameSession* session, std::string bg_image_path, std::string fg_image_path, std::string tile_image_path, std::string bg_music_path, std::string level_map_path);
     ~GameScreenLevelBase();
 	
     virtual bool SetUpLevel();
@@ -56,7 +61,7 @@ protected:
 	void CreateCoin(Vector2D position, Vector2D force);
 	
     void DoScreenShake();
-    void RenderLevelMapDebugGrid() const;
+    void RenderLevelMapTiles() const;
     void UpdateEnemies(float deltaTime, SDL_Event e);
 	void UpdateCoins(float deltaTime, SDL_Event e);
 	void UpdateScoreText();

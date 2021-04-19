@@ -5,6 +5,7 @@
 
 AnimatedSprite::AnimatedSprite(SDL_Renderer* renderer, std::string spritesheet_path, int width, int height) :
     m_renderer(renderer),
+    m_own_spritesheet(true),
     m_single_frame_width(width),
     m_single_frame_height(height),
     m_animation_start_x(0),
@@ -12,7 +13,8 @@ AnimatedSprite::AnimatedSprite(SDL_Renderer* renderer, std::string spritesheet_p
     m_animation_current_frame(0),
     m_animation_total_frames(1),
     m_animation_frame_duration(1.0f),
-    m_animation_time_elapsed(0.0f)
+    m_animation_time_elapsed(0.0f),
+    m_flip(SDL_FLIP_NONE)
 {
     m_spritesheet = new Texture2D(renderer);
     if (!m_spritesheet->LoadFromFile(spritesheet_path))
@@ -21,9 +23,29 @@ AnimatedSprite::AnimatedSprite(SDL_Renderer* renderer, std::string spritesheet_p
     }
 }
 
+
+AnimatedSprite::AnimatedSprite(SDL_Renderer* renderer, Texture2D* spritesheet, int width, int height) :
+    m_renderer(renderer),
+    m_spritesheet(spritesheet),
+    m_own_spritesheet(false),
+    m_single_frame_width(width),
+    m_single_frame_height(height),
+    m_animation_start_x(0),
+    m_animation_y(0),
+    m_animation_current_frame(0),
+    m_animation_total_frames(1),
+    m_animation_frame_duration(1.0f),
+    m_animation_time_elapsed(0.0f),
+    m_flip(SDL_FLIP_NONE)
+{
+}
+
 AnimatedSprite::~AnimatedSprite()
 {
-    delete m_spritesheet;
+    if (m_own_spritesheet)
+    {
+        delete m_spritesheet;
+    }
 }
 
 int AnimatedSprite::GetSingleFrameWidth() const
