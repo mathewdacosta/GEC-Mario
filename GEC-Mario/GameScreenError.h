@@ -8,6 +8,7 @@ private:
     Font* m_font;
     TextBox* m_line_1;
     TextBox* m_line_2;
+    SDL_Cursor* m_system_err_cursor;
 
 public:
     GameScreenError(SDL_Renderer* renderer, AudioManager* audio_manager, GameSession* session);
