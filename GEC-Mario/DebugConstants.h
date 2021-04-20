@@ -1,9 +1,12 @@
 ﻿#pragma once
 
+#ifndef _DEBUG_CONSTANTS_H
+#define _DEBUG_CONSTANTS_H
+
 /* ================ Group toggles ================= */
 
 // #define DEBUG_DRAW_ALL_OVERLAYS
-// #define DEBUG_AUDIO_DISABLE_ALL
+#define DEBUG_AUDIO_DISABLE_ALL
 
 
 
@@ -33,4 +36,6 @@
 #ifdef DEBUG_AUDIO_DISABLE_ALL
     #define DEBUG_AUDIO_DISABLE_MUSIC
     #define DEBUG_AUDIO_DISABLE_SFX
+#endif
+
 #endif

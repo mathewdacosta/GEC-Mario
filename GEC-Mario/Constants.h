@@ -1,5 +1,8 @@
 #pragma once
 
+#ifndef _CONSTANTS_H
+#define _CONSTANTS_H
+
 #include "Common.h"
 #include "DebugConstants.h"
 
@@ -52,9 +55,12 @@ const float SCREEN_SHAKE_DURATION = 0.35f;
 // Level 1 parameters
 const Vector2D LEVEL_1_SPAWNER_POSITION_0 = Vector2D(70, 20);
 const Vector2D LEVEL_1_SPAWNER_POSITION_1 = Vector2D(410, 20);
-const float LEVEL_1_SPAWNER_DELAY = 2.8f;
+const float LEVEL_1_SPAWNER_DELAY = 2.6f;
+const int LEVEL_1_MAX_POINTS = 2000;
 
 // Level 2 parameters
 const Vector2D LEVEL_2_SPAWNER_POSITION_0 = Vector2D(70, 20);
 const Vector2D LEVEL_2_SPAWNER_POSITION_1 = Vector2D(410, 20);
 const float LEVEL_2_SPAWNER_DELAY = 1.9f;
+
+#endif

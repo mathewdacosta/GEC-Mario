@@ -4,10 +4,11 @@
 
 #include "Collisions.h"
 #include "PowBlock.h"
-#include "SoundEffect.h"
+#include "GameScreenManager.h"
 
-GameScreenLevel1::GameScreenLevel1(SDL_Renderer* renderer, AudioManager* audio_manager, GameSession* session) :
-	GameScreenLevelBase(renderer, audio_manager, session, "Images/Level1_BG.png", "Images/Level1_Overlay.png", "Images/Level1_Tiles.png", "Audio/Music/Mario.mp3", "Levels/01.txt")
+GameScreenLevel1::GameScreenLevel1(SDL_Renderer* renderer, AudioManager* audio_manager, GameScreenManager* screen_manager, GameSession* session) :
+	GameScreenLevelBase(renderer, audio_manager, session, "Images/Level1_BG.png", "Images/Level1_Overlay.png", "Images/Level1_Tiles.png", "Audio/Music/Mario.mp3", "Levels/01.txt"),
+	m_screen_manager(screen_manager)
 {
 }
 
@@ -82,6 +83,11 @@ void GameScreenLevel1::Update(float deltaTime, SDL_Event e)
 	{
 		std::cout << "BLAH " << e.button.x << " , " << e.button.y << std::endl; 
 		CreateCoin({ (float) e.button.x, (float) e.button.y }, { 200.0f, 240.0f });
+	}
+
+	if (m_session->score > LEVEL_1_MAX_POINTS)
+	{
+		m_screen_manager->QueueScreen(Screen::LEVEL_2);
 	}
 }
 
