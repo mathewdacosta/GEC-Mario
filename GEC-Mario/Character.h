@@ -31,6 +31,7 @@ protected:
     bool m_moving_right;
     bool m_jump_ascending;
     short m_remaining_jumps;
+    bool m_ceiling_headbutt;
     
     Vector2D m_velocity;
     bool m_alive;
@@ -61,6 +62,8 @@ public:
 
     bool IsJumping();
     void CancelJump(bool force = false);
+
+    bool IsHeadbuttingCeiling() const { return m_ceiling_headbutt; }
 
     bool IsAlive() { return m_alive; }
     void SetAlive(bool alive) { m_alive = alive; }

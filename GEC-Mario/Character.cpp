@@ -19,6 +19,7 @@ Character::Character(SDL_Renderer* renderer, std::string image_path, int width, 
     m_moving_right(false),
     m_jump_ascending(false),
     m_remaining_jumps(max_jumps),
+    m_ceiling_headbutt(false),
     m_velocity({ 0.0f, 0.0f }),
     m_alive(true)
 {
@@ -117,6 +118,9 @@ void Character::HandleInput(float deltaTime, SDL_Event e)
 
 void Character::UpdateMovement(float deltaTime)
 {
+    // Reset headbutting state
+    m_ceiling_headbutt = false;
+    
     // Adjust position according to velocity
     m_position.x += m_velocity.x * deltaTime;
     m_position.y -= m_velocity.y * deltaTime;
@@ -130,18 +134,21 @@ void Character::UpdateMovement(float deltaTime)
 
     Rect2D collisionBox = GetCollisionBox();
     int tileXCenter = (int)(collisionBox.x + (collisionBox.width * 0.5)) / TILE_WIDTH;
+    int tileYHead = (int)(collisionBox.y) / TILE_HEIGHT;
     int tileYFoot = (int)(collisionBox.y + collisionBox.height) / TILE_HEIGHT;
 
+    // Stop falling
     if (!m_current_level_map->GetTileAt(tileYFoot, tileXCenter) == 0)
     {
         // Cancel jump
         CancelJump();
+    }
 
-        // If we're still ascending during a jump, don't reset velocity
-        if (!m_jump_ascending)
-        {
-            m_velocity.y = 0.0f;
-        }
+    // Collide with tiles above head
+    if (m_velocity.y > 0.0f && m_current_level_map->GetTileAt(tileYHead, tileXCenter) == 1)
+    {
+        m_velocity.y = -120.0f;
+        m_ceiling_headbutt = true;
     }
 
     if (m_moving_left)

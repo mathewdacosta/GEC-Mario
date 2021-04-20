@@ -73,6 +73,27 @@ void GameScreenLevelBase::CheckPlayerEnemyCollision(Player* player, Enemy* enemy
 			// TODO: kill player
 		}
 	}
+	// Check ceiling headbutt
+	else if (player->IsHeadbuttingCeiling())
+	{
+		Rect2D impactArea = player->GetCollisionBox();
+		impactArea.y -= impactArea.height * 1.5f;
+		if (Collisions::Instance()->Box(enemy->GetCollisionBox(), impactArea))
+		{
+			if (enemy->IsInjured())
+			{
+				// Kill enemy
+				enemy->SetAlive(false);
+				m_kick_sound->Play();
+				m_session->score += enemy->GetKillScore();
+			}
+			else
+			{
+				// Make enemy take damage
+				enemy->TakeDamage();
+			}
+		}
+	}
 }
 
 bool GameScreenLevelBase::Setup()
@@ -278,9 +299,6 @@ void GameScreenLevelBase::UpdateEnemies(float deltaTime, SDL_Event e)
 					current->SetAlive(false);
 				}
 			}
-			
-			// Call enemy update method
-			current->Update(deltaTime, e);
 
 			// Check enemy collisions if enemy is not behind pipe
 			if (!((posY > 300.0f || posY <= 64.0f) && (posX <  64.0f || posX > SCREEN_WIDTH - 96.0f)))
@@ -288,6 +306,9 @@ void GameScreenLevelBase::UpdateEnemies(float deltaTime, SDL_Event e)
 				CheckPlayerEnemyCollision(m_character_mario, current);
 				CheckPlayerEnemyCollision(m_character_luigi, current);
 			}
+			
+			// Call enemy update method
+			current->Update(deltaTime, e);
 
 			// Check whether enemy is dead and schedule for deletion
 			if (!current->IsAlive())

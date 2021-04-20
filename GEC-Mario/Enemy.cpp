@@ -38,6 +38,7 @@ void Enemy::TakeDamage()
     m_injured = true;
     m_injured_time = KOOPA_INJURY_TIME;
     m_stomp_sound->Play();
+    m_velocity.y = 270.0f;
 }
 
 // Not to be confused with a flip reset, that's a different game

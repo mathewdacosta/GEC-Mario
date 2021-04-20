@@ -24,8 +24,8 @@ bool GameScreenLevel2::SetUpLevel()
 
 void GameScreenLevel2::SetUpEntities()
 {
-    CreateMario(Vector2D(64, 300));
-    CreateLuigi(Vector2D(416, 300));
+    CreateMario(Vector2D(64, 320));
+    CreateLuigi(Vector2D(416, 320));
 
     CreateKoopa(Vector2D(150, 32), Facing::RIGHT, KOOPA_SPEED);
     CreateKoopa(Vector2D(325, 32), Facing::LEFT, KOOPA_SPEED);
