@@ -1,6 +1,6 @@
 # GEC Mario Bros
 
-## About
+![Screenshot of level 1 gameplay](./level1.png)
 
 A recreation of the classic Mario Bros game.
 
