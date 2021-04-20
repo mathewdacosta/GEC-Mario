@@ -144,16 +144,22 @@ bool Update()
 	case SDL_KEYUP:
 		switch (e.key.keysym.sym)
 		{
-		case SDLK_q:
+		case SDLK_ESCAPE:
 			return true;
-		case SDLK_m:
+		case SDLK_SLASH:
 			g_screen_manager->ChangeScreen(Screen::INTRO);
 			break;
-		case SDLK_n:
+		case SDLK_COMMA:
 			g_screen_manager->ChangeScreen(Screen::LEVEL_1);
 			break;
-		case SDLK_b:
+		case SDLK_PERIOD:
 			g_screen_manager->ChangeScreen(Screen::LEVEL_2);
+			break;
+		case SDLK_HASH:
+			g_screen_manager->ChangeScreen(Screen::HIGH_SCORES);
+			break;
+		case SDLK_QUOTE:
+			g_screen_manager->ChangeScreen(Screen::ERROR);
 			break;
 		}
 	}

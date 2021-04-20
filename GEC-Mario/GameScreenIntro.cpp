@@ -28,7 +28,7 @@ bool GameScreenIntro::Setup()
 {
     // Load background texture
     m_background_texture = new Texture2D(m_renderer);
-    if (!m_background_texture->LoadFromFile("Images/test-2.bmp"))
+    if (!m_background_texture->LoadFromFile("Images/Title_BG.png"))
     {
         std::cout << "Failed to load background texture!" << std::endl;
         return false;
@@ -47,8 +47,8 @@ bool GameScreenIntro::Setup()
         return false;
     }
 
-    m_text_2p = new TextBox(m_hud_font, "START (2p)", { 256, 330 }, TextColor::WHITE, TextColor::BLACK, false, TextAlignHorizontal::CENTER);
-    m_text_high_scores = new TextBox(m_hud_font, "HIGH SCORES", { 256, 360 }, TextColor::WHITE, TextColor::BLACK, false, TextAlignHorizontal::CENTER);
+    m_text_2p = new TextBox(m_hud_font, "..... START  (2p) .....", { 256, 270 }, TextColor::WHITE, TextColor::BLACK, false, TextAlignHorizontal::CENTER);
+    m_text_high_scores = new TextBox(m_hud_font, ".... HIGH SCORES ....", { 256, 300 }, TextColor::WHITE, TextColor::BLACK, false, TextAlignHorizontal::CENTER);
     m_text_mouse_pos = new TextBox(m_hud_font, "MOUSE", { 500, 410 }, TextColor::WHITE, TextColor::BLACK, false, TextAlignHorizontal::RIGHT, TextAlignVertical::BOTTOM);
     
     return true;

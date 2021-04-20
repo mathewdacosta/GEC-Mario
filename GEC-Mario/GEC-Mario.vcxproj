@@ -221,8 +221,6 @@
     <Content Include="Audio\SFX\smb_kick.wav" />
     <Content Include="Audio\SFX\smb_stomp.wav" />
     <Content Include="Fonts\Super-Mario-World.ttf" />
-    <Content Include="Images\BackgroundMB.pdn" />
-    <Content Include="Images\BackgroundMB.png" />
     <Content Include="Images\Coin.png" />
     <Content Include="Images\Goomba.png" />
     <Content Include="Images\Koopa.png" />
@@ -237,6 +235,8 @@
     <Content Include="Images\test-2.bmp" />
     <Content Include="Images\test.bmp" />
     <Content Include="Images\Level1_Tiles.png" />
+    <Content Include="Images\Title_BG.pdn" />
+    <Content Include="Images\Title_BG.png" />
     <Content Include="Levels\01.txt" />
     <Content Include="Levels\02.txt" />
   </ItemGroup>
