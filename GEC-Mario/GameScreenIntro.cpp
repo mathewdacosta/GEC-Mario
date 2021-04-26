@@ -47,8 +47,8 @@ bool GameScreenIntro::Setup()
         return false;
     }
 
-    m_text_2p = new TextBox(m_hud_font, "..... START  (2p) .....", { 256, 270 }, TextColor::WHITE, TextColor::BLACK, false, TextAlignHorizontal::CENTER);
-    m_text_high_scores = new TextBox(m_hud_font, ".... HIGH SCORES ....", { 256, 300 }, TextColor::WHITE, TextColor::BLACK, false, TextAlignHorizontal::CENTER);
+    m_text_2p = new TextBox(m_hud_font, "..... START  (2p) .....", { 256, 270 + 15 }, TextColor::WHITE, TextColor::BLACK, false, TextAlignHorizontal::CENTER);
+    m_text_high_scores = new TextBox(m_hud_font, ".... HIGH SCORES ....", { 256, 300 + 1000 }, TextColor::WHITE, TextColor::BLACK, false, TextAlignHorizontal::CENTER);
     m_text_mouse_pos = new TextBox(m_hud_font, "MOUSE", { 500, 410 }, TextColor::WHITE, TextColor::BLACK, false, TextAlignHorizontal::RIGHT, TextAlignVertical::BOTTOM);
     
     return true;
