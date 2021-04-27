@@ -78,14 +78,7 @@ void GameScreenLevel1::Update(float deltaTime, SDL_Event e)
         }
     }
 
-	// TODO: spawn coins from spawners
-	if (e.type == SDL_MOUSEBUTTONDOWN && e.button.button == SDL_BUTTON_LEFT)
-	{
-		std::cout << "BLAH " << e.button.x << " , " << e.button.y << std::endl; 
-		CreateCoin({ (float) e.button.x, (float) e.button.y }, { 200.0f, 240.0f });
-	}
-
-	if (m_session->score > LEVEL_1_MAX_POINTS)
+	if (m_session->score > LEVEL_1_CLEAR_SCORE)
 	{
 		m_screen_manager->QueueScreen(Screen::LEVEL_2);
 	}

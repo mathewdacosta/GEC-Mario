@@ -20,7 +20,7 @@
 
 /* ================ Audio toggles ================= */
 
-// #define DEBUG_AUDIO_DISABLE_MUSIC
+#define DEBUG_AUDIO_DISABLE_MUSIC
 // #define DEBUG_AUDIO_DISABLE_SFX
 
 

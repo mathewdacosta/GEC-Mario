@@ -34,14 +34,16 @@ const float LUIGI_MOVE_SPEED = 152.0f;
 // Enemy parameters
 const int KOOPA_WIDTH = 32;
 const int KOOPA_HEIGHT = 32;
-const float KOOPA_INJURY_TIME = 3.8f;
+const float KOOPA_INJURY_TIME = 4.2f;
 const float KOOPA_INITIAL_JUMP_FORCE = 280.0f;
 const float KOOPA_SPEED = 96.0f;
 const int KOOPA_KILL_SCORE = 200;
 
-// Misc object parameters
+// Coin object parameters
 const int COIN_WIDTH = 16;
 const int COIN_HEIGHT = 22;
+const int COIN_COLLECT_SCORE = 500;
+const float COIN_MAX_LIFETIME = 2.2f;
 
 // Map properties
 const int TILE_HEIGHT = 32;
@@ -56,7 +58,7 @@ const float SCREEN_SHAKE_DURATION = 0.35f;
 const Vector2D LEVEL_1_SPAWNER_POSITION_0 = Vector2D(70, 20);
 const Vector2D LEVEL_1_SPAWNER_POSITION_1 = Vector2D(410, 20);
 const float LEVEL_1_SPAWNER_DELAY = 2.6f;
-const int LEVEL_1_MAX_POINTS = 2000;
+const int LEVEL_1_CLEAR_SCORE = 5000;
 
 // Level 2 parameters
 const Vector2D LEVEL_2_SPAWNER_POSITION_0 = Vector2D(70, 20);

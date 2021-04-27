@@ -80,17 +80,16 @@ void GameScreenLevelBase::CheckPlayerEnemyCollision(Player* player, Enemy* enemy
 		impactArea.y -= impactArea.height * 1.5f;
 		if (Collisions::Instance()->Box(enemy->GetCollisionBox(), impactArea))
 		{
-			if (enemy->IsInjured())
-			{
-				// Kill enemy
-				enemy->SetAlive(false);
-				m_kick_sound->Play();
-				m_session->score += enemy->GetKillScore();
-			}
-			else
+			if (!enemy->IsInjured())
 			{
 				// Make enemy take damage
 				enemy->TakeDamage();
+				// Spawn coin
+				Vector2D coinForce = {
+					((rand() % 5) - 2.5f) * 60.0f,
+					280.0f
+				};
+				CreateCoin(enemy->GetPosition(), coinForce);
 			}
 		}
 	}
@@ -276,66 +275,101 @@ void GameScreenLevelBase::RenderLevelMapTiles() const
 
 void GameScreenLevelBase::UpdateEnemies(float deltaTime, SDL_Event e)
 {
-	if (!m_enemies.empty())
+	if (m_enemies.empty())
 	{
-		// index of enemy to delete at end; -1 signifies none to delete
-		int toDelete = -1;
-		for (unsigned int i = 0; i < m_enemies.size(); i++)
+		return;
+	}
+	
+	// index of enemy to delete at end; -1 signifies none to delete
+	int toDelete = -1;
+	for (unsigned int i = 0; i < m_enemies.size(); i++)
+	{
+		Enemy* current = m_enemies[i];
+
+		Rect2D collisionBox = current->GetCollisionBox();
+		float posX = collisionBox.x;
+		float posY = collisionBox.y;
+		float width = collisionBox.width;
+
+		// Check whether enemy is on bottom row of tiles
+		if (posY > 300.0f)
 		{
-			Enemy* current = m_enemies[i];
-
-			Rect2D collisionBox = current->GetCollisionBox();
-			float posX = collisionBox.x;
-			float posY = collisionBox.y;
-			float width = collisionBox.width;
-
-			// Check whether enemy is on bottom row of tiles
-			if (posY > 300.0f)
+			// Check if enemy is off either left or right of screen
+			if (posX < (float)(width * 0.5f) || posX > SCREEN_WIDTH - (float)(width * 0.5f))
 			{
-				// Check if enemy is off either left or right of screen
-				if (posX < (float)(width * 0.5f) || posX > SCREEN_WIDTH - (float)(width * 0.5f))
-				{
-					// Kill enemy if off screen
-					current->SetAlive(false);
-				}
-			}
-
-			// Check enemy collisions if enemy is not behind pipe
-			if (!((posY > 300.0f || posY <= 64.0f) && (posX <  64.0f || posX > SCREEN_WIDTH - 96.0f)))
-			{
-				CheckPlayerEnemyCollision(m_character_mario, current);
-				CheckPlayerEnemyCollision(m_character_luigi, current);
-			}
-			
-			// Call enemy update method
-			current->Update(deltaTime, e);
-
-			// Check whether enemy is dead and schedule for deletion
-			if (!current->IsAlive())
-			{
-				toDelete = i;
+				// Kill enemy if off screen
+				current->SetAlive(false);
 			}
 		}
 
-		// Remove enemy if scheduled (will be last if multiple are dead)
-		if (toDelete >= 0)
+		// Check enemy collisions if enemy is not behind pipe
+		if (!((posY > 300.0f || posY <= 64.0f) && (posX <  64.0f || posX > SCREEN_WIDTH - 96.0f)))
 		{
-			Enemy* temp = m_enemies[toDelete];
-			m_enemies.erase(m_enemies.begin() + toDelete);
-			delete temp;
+			CheckPlayerEnemyCollision(m_character_mario, current);
+			CheckPlayerEnemyCollision(m_character_luigi, current);
 		}
+		
+		// Call enemy update method
+		current->Update(deltaTime, e);
+
+		// Check whether enemy is dead and schedule for deletion
+		if (!current->IsAlive())
+		{
+			toDelete = i;
+		}
+	}
+
+	// Remove enemy if scheduled (will be last if multiple are dead)
+	if (toDelete >= 0)
+	{
+		Enemy* temp = m_enemies[toDelete];
+		m_enemies.erase(m_enemies.begin() + toDelete);
+		delete temp;
 	}
 }
 
 void GameScreenLevelBase::UpdateCoins(float deltaTime, SDL_Event e)
 {
+	if (m_coins.empty())
+	{
+		return;
+	}
+
+	int toDelete = -1;
 	for (int i = 0; i < m_coins.size(); i++)
 	{
-		m_coins[i]->Update(deltaTime, e);
-		if (Collisions::Instance()->Circle(m_coins[i], m_character_mario))
+		Coin* current = m_coins[i];
+		current->Update(deltaTime, e);
+
+		if (current->IsAlive())
 		{
-			m_coin_sound->Play();
+			if (Collisions::Instance()->Circle(m_coins[i], m_character_mario) || Collisions::Instance()->Circle(m_coins[i], m_character_luigi))
+			{
+				// Delete coin
+				current->SetAlive(false);
+
+				// Increment score and play sound
+				m_coin_sound->Play();
+				m_session->score += COIN_COLLECT_SCORE;
+			}
+
+			if (current->GetLifetime() > COIN_MAX_LIFETIME)
+			{
+				current->SetAlive(false);
+			}
 		}
+		else
+		{
+			// Queue for deletion
+			toDelete = i;
+		}
+	}
+
+	if (toDelete > -1)
+	{
+		Coin* temp = m_coins[toDelete];
+		m_coins.erase(m_coins.begin() + toDelete);
+		delete temp;
 	}
 }
 

@@ -22,7 +22,9 @@ void SoundEffect::Play(int loops)
 {
     if (IsLoaded())
     {
+#ifndef DEBUG_AUDIO_DISABLE_SFX
         m_last_channel = m_audio_manager->PlaySound(m_sound, loops, m_preferred_channel);
+#endif
     }
 }
 

@@ -79,10 +79,4 @@ void GameScreenLevel2::Update(float deltaTime, SDL_Event e)
             m_background_y_pos = 0.0f;
         }
     }
-
-    // TODO: spawn coins / other enemies from spawners
-    if (e.type == SDL_MOUSEBUTTONDOWN && e.button.button == SDL_BUTTON_LEFT)
-    {
-        CreateCoin({ (float) e.button.x, (float) e.button.y }, { 200.0f, 240.0f });
-    }
 }
