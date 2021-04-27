@@ -63,7 +63,7 @@ void GameScreenManager::ChangeScreen(Screen new_screen)
         m_current_screen = new GameScreenLevel1(m_renderer, m_audio_manager, this, m_session);
         break;
     case Screen::LEVEL_2:
-        m_current_screen = new GameScreenLevel2(m_renderer, m_audio_manager, m_session);
+        m_current_screen = new GameScreenLevel2(m_renderer, m_audio_manager, this, m_session);
         break;
     case Screen::ERROR:
     default:

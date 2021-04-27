@@ -15,6 +15,7 @@ class Player : public Character
 private:
     SoundEffect* m_jump_sound;
     PlayerAnimationState m_current_animation_state;
+    bool m_game_over;
 
     void SetAnimationState(PlayerAnimationState state);
 
@@ -34,4 +35,7 @@ public:
 
     void Update(float deltaTime, SDL_Event e) override;
 	void Jump() override;
+
+    void Kill();
+    bool IsGameOver() const;
 };

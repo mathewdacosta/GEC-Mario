@@ -13,7 +13,6 @@ class GameScreenManager;
 class GameScreenLevel1 : public GameScreenLevelBase
 {
 private:
-    GameScreenManager* m_screen_manager;
     PowBlock* m_pow_block;
     
     int m_enemy_spawn_side;

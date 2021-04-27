@@ -6,6 +6,7 @@
 #include "PlayerMario.h"
 #include "PlayerLuigi.h"
 #include "EnemyKoopa.h"
+#include "GameScreenManager.h"
 #include "TextBox.h"
 
 
@@ -21,7 +22,9 @@ protected:
     const std::string m_bg_music_path;
     const std::string m_level_map_path;
 
-    LevelMap* m_level_map;
+	GameScreenManager* m_screen_manager;
+
+	LevelMap* m_level_map;
     Texture2D* m_background_texture;
 	Texture2D* m_overlay_texture;
 	Texture2D* m_tiles_spritesheet;
@@ -45,8 +48,8 @@ protected:
     float m_shake_time;
     float m_wobble;
     float m_background_y_pos;
-	
-	GameScreenLevelBase(SDL_Renderer* renderer, AudioManager* audio_manager, GameSession* session, std::string bg_image_path, std::string fg_image_path, std::string tile_image_path, std::string bg_music_path, std::string level_map_path);
+
+	GameScreenLevelBase(SDL_Renderer* renderer, AudioManager* audio_manager, GameScreenManager* screen_manager, GameSession* session, std::string bg_image_path, std::string fg_image_path, std::string tile_image_path, std::string bg_music_path, std::string level_map_path);
     ~GameScreenLevelBase();
 	
     virtual bool SetUpLevel();
@@ -60,6 +63,7 @@ protected:
     void CreateKoopa(Vector2D position, Facing direction, float speed);
 	void CreateCoin(Vector2D position, Vector2D force);
 	
+	void CheckPlayersAlive();
     void DoScreenShake();
     void RenderLevelMapTiles() const;
     void UpdateEnemies(float deltaTime, SDL_Event e);

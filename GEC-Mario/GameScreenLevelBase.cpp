@@ -12,7 +12,7 @@
 #include "SoundEffect.h"
 #include "TextBox.h"
 
-GameScreenLevelBase::GameScreenLevelBase(SDL_Renderer* renderer, AudioManager* audio_manager, GameSession* session, std::string bg_image_path, std::string fg_image_path, std::string tile_image_path, std::string bg_music_path, std::string level_map_path) :
+GameScreenLevelBase::GameScreenLevelBase(SDL_Renderer* renderer, AudioManager* audio_manager, GameScreenManager* screen_manager, GameSession* session, std::string bg_image_path, std::string fg_image_path, std::string tile_image_path, std::string bg_music_path, std::string level_map_path) :
 	GameScreen(renderer, audio_manager, session),
 	m_bg_image_path(bg_image_path),
 	m_fg_image_path(fg_image_path),
@@ -21,7 +21,8 @@ GameScreenLevelBase::GameScreenLevelBase(SDL_Renderer* renderer, AudioManager* a
 	m_level_map_path(level_map_path),
 	m_screen_shaking(false),
 	m_shake_time(SCREEN_SHAKE_DURATION),
-	m_wobble(0.0f)
+	m_wobble(0.0f),
+	m_screen_manager(screen_manager)
 {
 	// Initialise screen shake variables
 	m_screen_shaking = false;
@@ -70,7 +71,8 @@ void GameScreenLevelBase::CheckPlayerEnemyCollision(Player* player, Enemy* enemy
 		}
 		else
 		{
-			// TODO: kill player
+			// Kill player
+			player->Kill();
 		}
 	}
 	// Check ceiling headbutt
@@ -222,6 +224,14 @@ void GameScreenLevelBase::CreateCoin(Vector2D position, Vector2D force)
 {
 	Coin* coin = new Coin(m_renderer, position, force, m_level_map);
 	m_coins.push_back(coin);
+}
+
+void GameScreenLevelBase::CheckPlayersAlive()
+{
+	if (m_character_mario->IsGameOver() && m_character_luigi->IsGameOver())
+	{
+		m_screen_manager->QueueScreen(Screen::GAME_OVER);
+	}
 }
 
 void GameScreenLevelBase::DoScreenShake()

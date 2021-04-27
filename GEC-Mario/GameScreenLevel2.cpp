@@ -1,7 +1,7 @@
 ﻿#include "GameScreenLevel2.h"
 
-GameScreenLevel2::GameScreenLevel2(SDL_Renderer* renderer, AudioManager* audio_manager, GameSession* session) :
-    GameScreenLevelBase(renderer, audio_manager, session, "Images/Level2_BG.png", "Images/Level2_Overlay.png", "Images/Level2_Tiles.png", "Audio/Music/MarioUnderworld.mp3", "Levels/02.txt")
+GameScreenLevel2::GameScreenLevel2(SDL_Renderer* renderer, AudioManager* audio_manager, GameScreenManager* screen_manager, GameSession* session) :
+    GameScreenLevelBase(renderer, audio_manager, screen_manager, session, "Images/Level2_BG.png", "Images/Level2_Overlay.png", "Images/Level2_Tiles.png", "Audio/Music/MarioUnderworld.mp3", "Levels/02.txt")
 {
 }
 
@@ -64,6 +64,7 @@ void GameScreenLevel2::Update(float deltaTime, SDL_Event e)
     UpdateCoins(deltaTime, e);
     UpdateSpawners(deltaTime);
     UpdateScoreText();
+    CheckPlayersAlive();
 
     if (m_screen_shaking)
     {

@@ -7,8 +7,7 @@
 #include "GameScreenManager.h"
 
 GameScreenLevel1::GameScreenLevel1(SDL_Renderer* renderer, AudioManager* audio_manager, GameScreenManager* screen_manager, GameSession* session) :
-	GameScreenLevelBase(renderer, audio_manager, session, "Images/Level1_BG.png", "Images/Level1_Overlay.png", "Images/Level1_Tiles.png", "Audio/Music/Mario.mp3", "Levels/01.txt"),
-	m_screen_manager(screen_manager)
+	GameScreenLevelBase(renderer, audio_manager, screen_manager, session, "Images/Level1_BG.png", "Images/Level1_Overlay.png", "Images/Level1_Tiles.png", "Audio/Music/Mario.mp3", "Levels/01.txt")
 {
 }
 
@@ -62,6 +61,7 @@ void GameScreenLevel1::Update(float deltaTime, SDL_Event e)
 	UpdateCoins(deltaTime, e);
 	UpdateSpawners(deltaTime);
 	UpdateScoreText();
+    CheckPlayersAlive();
 
     if (m_screen_shaking)
     {

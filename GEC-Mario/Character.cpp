@@ -138,7 +138,7 @@ void Character::UpdateMovement(float deltaTime)
     int tileYFoot = (int)(collisionBox.y + collisionBox.height) / TILE_HEIGHT;
 
     // Stop falling
-    if (!m_current_level_map->GetTileAt(tileYFoot, tileXCenter) == 0)
+    if (!m_current_level_map->GetTileAt(tileYFoot, tileXCenter) == 0 && m_alive)
     {
         // Cancel jump
         CancelJump();

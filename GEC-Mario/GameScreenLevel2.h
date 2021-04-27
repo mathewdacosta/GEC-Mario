@@ -13,7 +13,7 @@ private:
     void UpdateSpawners(float deltaTime);
 
 public:
-    GameScreenLevel2(SDL_Renderer* renderer, AudioManager* audio_manager, GameSession* session);
+    GameScreenLevel2(SDL_Renderer* renderer, AudioManager* audio_manager, GameScreenManager* screen_manager, GameSession* session);
 
     void Update(float deltaTime, SDL_Event e) override;
     
