@@ -156,7 +156,7 @@ bool Update()
 			g_screen_manager->ChangeScreen(Screen::LEVEL_2);
 			break;
 		case SDLK_HASH:
-			g_screen_manager->ChangeScreen(Screen::HIGH_SCORES);
+			g_screen_manager->ChangeScreen(Screen::GAME_OVER);
 			break;
 		case SDLK_QUOTE:
 			g_screen_manager->ChangeScreen(Screen::ERROR);
