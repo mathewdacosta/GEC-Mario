@@ -25,7 +25,6 @@ bool InitSDL();
 void CloseSDL();
 bool Update();
 void Render();
-void Render();
 
 
 // Function implementations
