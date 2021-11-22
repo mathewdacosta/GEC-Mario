@@ -18,4 +18,4 @@ This was created using C++ and SDL for a university assignment.
 
 ## Download
 
-You can download the game from [GitHub](https://github.com/mathewdacosta/GEC-Mario/releases).
+You can download the game from [GitHub](https://github.com/mathewdacosta/SDL-Mario-Bros/releases).
