@@ -1,4 +1,4 @@
 theme: jekyll-theme-minimal
-title: "GEC Mario Bros"
+title: "SDL Mario Bros"
 description: "A Mario Bros remake in C++ and SDL"
 show_downloads: false
