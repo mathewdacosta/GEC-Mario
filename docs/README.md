@@ -1,4 +1,4 @@
-# GEC Mario Bros
+# SDL Mario Bros
 
 ![Screenshot of level 1 gameplay](./level1.png)
 
