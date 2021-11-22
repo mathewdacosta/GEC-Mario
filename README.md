@@ -1,4 +1,4 @@
-# GEC Mario Bros
+# SDL Mario Bros
 
 ## About
 
